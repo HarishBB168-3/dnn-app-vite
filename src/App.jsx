@@ -4,6 +4,7 @@ import NotepadPage from "./components/NotepadPage";
 import Home from "./components/Home";
 import NNListPage from "./components/NNListPage";
 import "./App.css";
+import CADetailsPage from "./components/CADetailsPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route path="/notepad" element={<NotepadPage />} />
           <Route path="/nnlist" element={<NNListPage />} />
+          <Route path="/cadetails" element={<CADetailsPage />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </div>

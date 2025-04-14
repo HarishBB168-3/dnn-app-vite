@@ -69,17 +69,6 @@ const NNListPage = () => {
         {nnList.map((item, index) => (
           <ServiceOrderAccordion key={index} data={item} index={index} />
         ))}
-        {/* {nnList.map((item, idx) => {
-          return (
-            <li className="list-group-item" key={idx}>
-              <span className="badge text-bg-primary">{"item.remark"}</span>
-              <br />
-              {JSON.stringify(item)}
-
-              
-            </li>
-          );
-        })} */}
       </ul>
     </div>
   );
