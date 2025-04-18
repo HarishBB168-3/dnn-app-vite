@@ -1,12 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import http from "./services/httpService";
-import ServiceOrderCard from "./ServiceOrderCard";
 import ServiceOrderAccordion from "./ServiceOrderAccordion";
+
+const filterTypes = [
+  { name: "all", label: "All", term: "" },
+  { name: "internal", label: "Internal", term: "Internal Analysis" },
+  { name: "mrg", label: "MRG", term: "MRG Initiated" },
+  { name: "rrg", label: "RRG", term: "RRG Initiated D/Transfer" },
+  { name: "website", label: "Website", term: "Website" },
+  { name: "walkin", label: "Cons. Walk In", term: "Walk" },
+];
 
 const NNListPage = () => {
   const [userId, setUserId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [nnList, setNnList] = useState([]);
+  const [filteredList, setFilteredList] = useState([]);
+  const [filterType, setFilterType] = useState(
+    filterTypes.find((i) => i.name === "all")
+  );
+
+  useEffect(() => {
+    const data = [...nnList];
+    const result = filterList(data, "SOURCE", filterType.term);
+    console.log("Filter result : ", result);
+    setFilteredList(result);
+  }, [filterType]);
 
   const url = "https://api.tatapower-ddl.com/mmg2/GetCustomerDetailsMMG";
 
@@ -32,6 +51,16 @@ const NNListPage = () => {
     });
   }
 
+  function filterList(list, key, searchTerm) {
+    return list.filter((item) => {
+      const value = item[key];
+      return (
+        value &&
+        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+  }
+
   const getNNList = async () => {
     setIsLoading(true);
     try {
@@ -44,6 +73,8 @@ const NNListPage = () => {
     } catch (e) {}
     setIsLoading(false);
   };
+
+  const listToUse = filteredList.length === 0 ? nnList : filteredList;
 
   return (
     <div className="container">
@@ -72,20 +103,38 @@ const NNListPage = () => {
         </button>
       </form>
 
+      <div className="d-flex gap-2">
+        {filterTypes.map((item, index) => (
+          <div className="form-check" key={index}>
+            <input
+              className="form-check-input"
+              type="radio"
+              name="filterType"
+              id={item.name}
+              onChange={() => setFilterType({ ...item })}
+              checked={item.name === filterType.name}
+            />
+            <label className="form-check-label" htmlFor={item.name}>
+              {item.label}
+            </label>
+          </div>
+        ))}
+      </div>
+
       {isLoading && (
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       )}
 
-      <h3>Total NN : {nnList.length}</h3>
+      <h3>Total NN : {listToUse.length}</h3>
 
       <ul className="list-group mt-2">
-        {nnList.length === 0 && (
+        {listToUse.length === 0 && (
           <li className="list-group-item">Nothing to show</li>
         )}
 
-        {nnList.map((item, index) => (
+        {listToUse.map((item, index) => (
           <ServiceOrderAccordion key={index} data={item} index={index} />
         ))}
       </ul>
