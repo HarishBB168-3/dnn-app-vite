@@ -91,6 +91,18 @@ function ServiceOrderAccordion({ data, index }) {
         >
           <div className="accordion-body">
             <div className="row">
+              <div className="cod-md-6 mb-2">
+                <a
+                  href={
+                    "https://api.tatapower-ddl.com/cmg2/main_forms/frmSVRGenerate.aspx?Name=" +
+                    data.NOTIFICATION_NO
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  CMG Link
+                </a>
+              </div>
               {Object.entries(data).map(([key, value]) => (
                 <div className="col-md-6 mb-2" key={key}>
                   <div className="border rounded p-2 bg-light">
