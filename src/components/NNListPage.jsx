@@ -16,6 +16,22 @@ const NNListPage = () => {
     APK_VERSION: "CMM_2.3.6",
   };
 
+  function sortByPoleSuffix(arr, order = "asc") {
+    return arr.sort((a, b) => {
+      const cleanPole = (pole) => {
+        if (!pole || typeof pole !== "string") return "";
+        return pole.startsWith("HT") ? pole.slice(2) : pole;
+      };
+
+      const valA = cleanPole(a.POLE).replace("-", "");
+      const valB = cleanPole(b.POLE).replace("-", "");
+
+      return order === "asc"
+        ? valA.localeCompare(valB)
+        : valB.localeCompare(valA);
+    });
+  }
+
   const getNNList = async () => {
     setIsLoading(true);
     try {
@@ -23,7 +39,8 @@ const NNListPage = () => {
       console.log("Status : ", result.status);
       const data = JSON.parse(result.data);
       console.log(data);
-      setNnList(data);
+      const sortedData = sortByPoleSuffix(data);
+      setNnList(sortedData);
     } catch (e) {}
     setIsLoading(false);
   };
@@ -60,6 +77,8 @@ const NNListPage = () => {
           <span className="visually-hidden">Loading...</span>
         </div>
       )}
+
+      <h3>Total NN : {nnList.length}</h3>
 
       <ul className="list-group mt-2">
         {nnList.length === 0 && (
