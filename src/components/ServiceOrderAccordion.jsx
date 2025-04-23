@@ -1,7 +1,20 @@
+import React from "react";
+
 function ServiceOrderAccordion({ data, index }) {
   const accordionId = `accordion-${index}`;
   const headingId = `heading-${index}`;
   const collapseId = `collapse-${index}`;
+
+  const copyToClipboard = (text) => {
+    if (navigator.clipboard && text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard: " + text);
+      });
+    } else {
+      alert("Unable to copy : " + text);
+      console.log(navigator);
+    }
+  };
 
   return (
     <div className="accordion mb-4" id={accordionId}>
@@ -102,6 +115,32 @@ function ServiceOrderAccordion({ data, index }) {
                 >
                   CMG Link
                 </a>
+                <br />
+                <strong>Notif #:</strong> {data.NOTIFICATION_NO || "N/A"}
+                {data.NOTIFICATION_NO && (
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-outline-secondary ms-2"
+                    onClick={(e) => {
+                      copyToClipboard(data.NOTIFICATION_NO);
+                    }}
+                  >
+                    Copy
+                  </button>
+                )}
+                <br />
+                <strong>Pole:</strong> {data.POLE || "N/A"}
+                {data.POLE && (
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-outline-secondary ms-2"
+                    onClick={(e) => {
+                      copyToClipboard(data.POLE);
+                    }}
+                  >
+                    Copy
+                  </button>
+                )}
               </div>
               {Object.entries(data).map(([key, value]) => (
                 <div className="col-md-6 mb-2" key={key}>
