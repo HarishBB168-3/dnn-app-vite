@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import http from "./services/httpService";
 
 function NotepadPage() {
   const [notification, setNotification] = useState(0);
   const [nnNotepad, setNnNotepad] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
 
   const url = "https://api.tatapower-ddl.com/mmg2/Shownotepaddata";
 
@@ -20,6 +23,23 @@ function NotepadPage() {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    const nn = queryParams.get("nn");
+
+    if (nn) {
+      // ? Query params are present
+      console.log("Getting nn from url with:", { nn });
+
+      setNotification(nn);
+      getNNData(nn);
+      // Put your logic here, e.g.:
+      // fetchData(type, value);
+    } else {
+      // ?? Missing query params
+      console.log("Default nn page");
+    }
+  }, [search]); // re-run if the query string changes
+
   return (
     <div className="container">
       <form>
@@ -32,6 +52,7 @@ function NotepadPage() {
             className="form-control"
             id="notification"
             aria-describedby="nnHelp"
+            value={notification}
             onChange={(e) => setNotification(e.target.value)}
           />
           <div id="nnHelp" className="form-text">

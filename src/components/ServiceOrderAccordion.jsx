@@ -141,6 +141,19 @@ function ServiceOrderAccordion({ data, index }) {
                     Copy
                   </button>
                 )}
+                <br />
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={(e) => {
+                    window.open(
+                      "/notepad?nn=" + data.NOTIFICATION_NO,
+                      "_blank"
+                    );
+                  }}
+                >
+                  Notepad History
+                </button>
               </div>
               {Object.entries(data).map(([key, value]) => (
                 <div className="col-md-6 mb-2" key={key}>
