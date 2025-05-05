@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import http from "./services/httpService";
+import { downloadCSV } from "./services/utilsService";
 import ServiceOrderAccordion from "./ServiceOrderAccordion";
 
 const filterTypes = [
@@ -102,6 +103,13 @@ const NNListPage = () => {
           Submit
         </button>
       </form>
+
+      <button
+        className="btn btn-info btn-sm my-3"
+        onClick={() => downloadCSV(listToUse)}
+      >
+        Download as CSV
+      </button>
 
       <div className="d-flex gap-2">
         {filterTypes.map((item, index) => (

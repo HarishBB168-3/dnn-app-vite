@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { getPoleGPSLink } from "./services/poleService";
-import { Link } from "react-router-dom";
 
 function ServiceOrderAccordion({ data, index }) {
   const accordionId = `accordion-${index}`;
