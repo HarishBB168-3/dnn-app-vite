@@ -20,6 +20,16 @@ function ServiceOrderAccordion({ data, index }) {
     }
   };
 
+  const isPACase = () => {
+    if (
+      data.SOURCE === "Website" ||
+      data.SOURCE === "Consumer Walk-in" ||
+      data.SOURCE === "E-Mail"
+    )
+      return true;
+    else return false;
+  };
+
   return (
     <div className="accordion mb-4" id={accordionId}>
       <div className="accordion-item">
@@ -31,6 +41,7 @@ function ServiceOrderAccordion({ data, index }) {
             data-bs-target={`#${collapseId}`}
             aria-expanded="false"
             aria-controls={collapseId}
+            style={{ background: isPACase() ? "#eae2b7" : "inherit" }}
           >
             <div className="container-fluid">
               <div className="row">
