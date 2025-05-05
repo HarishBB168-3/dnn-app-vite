@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import { getPoleGPSLink } from "./services/poleService";
+import { Link } from "react-router-dom";
 
 function ServiceOrderAccordion({ data, index }) {
   const accordionId = `accordion-${index}`;
   const headingId = `heading-${index}`;
   const collapseId = `collapse-${index}`;
+
+  const [poleLink, setPoleLink] = useState("");
 
   const copyToClipboard = (text) => {
     if (navigator.clipboard && text) {
@@ -131,20 +135,44 @@ function ServiceOrderAccordion({ data, index }) {
                 <br />
                 <strong>Pole:</strong> {data.POLE || "N/A"}
                 {data.POLE && (
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-outline-secondary ms-2"
-                    onClick={(e) => {
-                      copyToClipboard(data.POLE);
-                    }}
-                  >
-                    Copy
-                  </button>
+                  <>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-secondary ms-2"
+                      onClick={(e) => {
+                        copyToClipboard(data.POLE);
+                      }}
+                    >
+                      Copy
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-success ms-2"
+                      onClick={(e) => {
+                        const getPoleLink = async () => {
+                          const link = await getPoleGPSLink(data.POLE);
+                          console.log("Pole link : ", link);
+                          setPoleLink(link);
+                        };
+                        getPoleLink();
+                      }}
+                    >
+                      Get Link
+                    </button>
+                    <br />
+                    <a
+                      href={poleLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {poleLink}
+                    </a>
+                  </>
                 )}
                 <br />
                 <button
                   type="button"
-                  className="btn btn-secondary"
+                  className="btn btn-sm btn-secondary "
                   onClick={(e) => {
                     window.open(
                       "/notepad?nn=" + data.NOTIFICATION_NO,
