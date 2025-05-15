@@ -23,3 +23,14 @@ export const downloadCSV = (data, filename = "data.csv") => {
 export const getUniqueValuesByKey = (array, key) => {
   return [...new Set(array.map((item) => item[key]))];
 };
+
+export const generateNameIdObjects = (names) => {
+  return names.map((name) => {
+    const id = name
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-") // replace spaces with hyphens
+      .replace(/[^a-z0-9\-]/g, ""); // remove special characters
+    return { name, id };
+  });
+};

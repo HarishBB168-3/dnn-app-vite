@@ -17,20 +17,19 @@ const NNListPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [nnList, setNnList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
-  const [filterType, setFilterType] = useState(
-    filterTypes.find((i) => i.name === "all")
-  );
+  const [filterType, setFilterType] = useState("");
   const [uniqueNNTypeList, setNNTypeList] = useState([]);
   const [uniqueZoneList, setZoneList] = useState([]);
   const [showExtraData, setShowExtraData] = useState(false);
 
   useEffect(() => {
     const data = [...nnList];
-    const result = filterList(data, "SOURCE", filterType.term);
+    const result = filterList(data, "NOTIF_TYPE_DESC", filterType);
     console.log("Filter result : ", result);
+    console.log("Filter type : ", filterType);
     setFilteredList(result);
-    setNNTypeList(getUniqueValuesByKey(result, "NOTIF_TYPE_DESC"));
-    setZoneList(getUniqueValuesByKey(result, "ZONECODE"));
+    setNNTypeList(getUniqueValuesByKey(nnList, "NOTIF_TYPE_DESC"));
+    setZoneList(getUniqueValuesByKey(nnList, "ZONECODE"));
   }, [filterType]);
 
   const url = "https://api.tatapower-ddl.com/mmg2/GetCustomerDetailsMMG";
@@ -144,19 +143,32 @@ const NNListPage = () => {
         </div>
       )}
 
-      <div className="d-flex gap-2">
-        {filterTypes.map((item, index) => (
-          <div className="form-check" key={index}>
+      <div className="d-flex gap-2 row">
+        <div className="form-check col">
+          <input
+            className="form-check-input"
+            type="radio"
+            name="filterType"
+            id="all"
+            onChange={() => setFilterType("")}
+            checked={"" === filterType}
+          />
+          <label className="form-check-label" htmlFor="all">
+            All
+          </label>
+        </div>
+        {uniqueNNTypeList.map((item, index) => (
+          <div className="form-check col" key={index}>
             <input
               className="form-check-input"
               type="radio"
               name="filterType"
-              id={item.name}
-              onChange={() => setFilterType({ ...item })}
-              checked={item.name === filterType.name}
+              id={item}
+              onChange={() => setFilterType(item)}
+              checked={item === filterType}
             />
-            <label className="form-check-label" htmlFor={item.name}>
-              {item.label}
+            <label className="form-check-label" htmlFor={item}>
+              {item}
             </label>
           </div>
         ))}
