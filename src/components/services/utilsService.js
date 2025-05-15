@@ -19,3 +19,7 @@ export const downloadCSV = (data, filename = "data.csv") => {
   link.click();
   document.body.removeChild(link);
 };
+
+export const getUniqueValuesByKey = (array, key) => {
+  return [...new Set(array.map((item) => item[key]))];
+};

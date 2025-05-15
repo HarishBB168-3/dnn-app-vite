@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import http from "./services/httpService";
-import { downloadCSV } from "./services/utilsService";
+import { downloadCSV, getUniqueValuesByKey } from "./services/utilsService";
 import ServiceOrderAccordion from "./ServiceOrderAccordion";
 
 const filterTypes = [
@@ -20,12 +20,17 @@ const NNListPage = () => {
   const [filterType, setFilterType] = useState(
     filterTypes.find((i) => i.name === "all")
   );
+  const [uniqueNNTypeList, setNNTypeList] = useState([]);
+  const [uniqueZoneList, setZoneList] = useState([]);
+  const [showExtraData, setShowExtraData] = useState(false);
 
   useEffect(() => {
     const data = [...nnList];
     const result = filterList(data, "SOURCE", filterType.term);
     console.log("Filter result : ", result);
     setFilteredList(result);
+    setNNTypeList(getUniqueValuesByKey(result, "NOTIF_TYPE_DESC"));
+    setZoneList(getUniqueValuesByKey(result, "ZONECODE"));
   }, [filterType]);
 
   const url = "https://api.tatapower-ddl.com/mmg2/GetCustomerDetailsMMG";
@@ -71,6 +76,8 @@ const NNListPage = () => {
       console.log(data);
       const sortedData = sortByPoleSuffix(data);
       setNnList(sortedData);
+      setNNTypeList(getUniqueValuesByKey(sortedData, "NOTIF_TYPE_DESC"));
+      setZoneList(getUniqueValuesByKey(sortedData, "ZONECODE"));
     } catch (e) {}
     setIsLoading(false);
   };
@@ -78,7 +85,7 @@ const NNListPage = () => {
   const listToUse = filteredList.length === 0 ? nnList : filteredList;
 
   return (
-    <div className="container">
+    <div className="container ">
       <form>
         <div className="mb-3">
           <label htmlFor="userId" className="form-label">
@@ -110,6 +117,32 @@ const NNListPage = () => {
       >
         Download as CSV
       </button>
+
+      <button
+        className="btn btn-secondary btn-sm mx-3"
+        onClick={() => setShowExtraData(!showExtraData)}
+      >
+        Show Extra Data
+      </button>
+
+      {showExtraData && (
+        <div className="d-flex">
+          <ul className="list-group">
+            {uniqueNNTypeList.map((item) => (
+              <li key={item} className="list-group-item">
+                {item}
+              </li>
+            ))}
+          </ul>
+          <ul className="list-group">
+            {uniqueZoneList.map((item) => (
+              <li key={item} className="list-group-item">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="d-flex gap-2">
         {filterTypes.map((item, index) => (
