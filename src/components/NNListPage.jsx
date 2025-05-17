@@ -188,7 +188,11 @@ const NNListPage = () => {
         )}
 
         {listToUse.map((item, index) => (
-          <ServiceOrderAccordion key={index} data={item} index={index} />
+          <ServiceOrderAccordion
+            key={item.NOTIFICATION_NO}
+            data={item}
+            index={index}
+          />
         ))}
       </ul>
     </div>

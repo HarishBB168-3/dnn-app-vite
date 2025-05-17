@@ -43,6 +43,7 @@ function ServiceOrderAccordion({ data, index }) {
             style={{ background: isPACase() ? "#eae2b7" : "inherit" }}
           >
             <div className="container-fluid">
+              <strong>{index}</strong>
               <div className="row">
                 <div className="col-md-4">
                   <strong>Type:</strong> {data.NOTIF_TYPE_DESC || "N/A"}
