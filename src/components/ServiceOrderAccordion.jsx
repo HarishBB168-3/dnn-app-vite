@@ -107,6 +107,10 @@ function ServiceOrderAccordion({ data, index }) {
                   <strong>Class:</strong> {data.OLD_MTR_CONST_CLASS || "N/A"}
                   <br />
                   <strong>New Meter No :</strong> {data.NEW_METER_NO || "N/A"}
+                  <br />
+                  <strong>New Class:</strong>{" "}
+                  {data.NEW_MTR_CONST_CLASS || "N/A"}
+                  <br />
                 </div>
               </div>
             </div>
