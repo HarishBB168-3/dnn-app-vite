@@ -6,6 +6,7 @@ import NNListPage from "./components/NNListPage";
 import "./App.css";
 import CADetailsPage from "./components/CADetailsPage";
 import SealDetailsPage from "./components/SealDetailsPage";
+import HistoryPage from "./components/HistoryPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/nnlist" element={<NNListPage />} />
           <Route path="/cadetails" element={<CADetailsPage />} />
           <Route path="/sllist" element={<SealDetailsPage />} />
+          <Route path="/history" element={<HistoryPage />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </div>
