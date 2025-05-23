@@ -1,5 +1,6 @@
 import { useState } from "react";
 import http from "./services/httpService";
+import { copyToClipboard } from "./services/utilsService";
 
 // Sample data
 const items = [
@@ -96,6 +97,14 @@ const HistoryPage = () => {
                   }}
                 >
                   Notepad
+                </button>
+                <button
+                  className="btn btn-outline-secondary btn-sm ms-2"
+                  onClick={(e) => {
+                    copyToClipboard(item.NOTIFICATION_NO);
+                  }}
+                >
+                  Copy NN
                 </button>
               </div>
             </div>

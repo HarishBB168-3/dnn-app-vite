@@ -34,3 +34,14 @@ export const generateNameIdObjects = (names) => {
     return { name, id };
   });
 };
+
+export const copyToClipboard = (text) => {
+  if (navigator.clipboard && text) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Copied to clipboard: " + text);
+    });
+  } else {
+    alert("Unable to copy : " + text);
+    console.log(navigator);
+  }
+};
