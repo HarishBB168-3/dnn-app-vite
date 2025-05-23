@@ -13,6 +13,8 @@ const HistoryPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [historyList, setHistoryList] = useState([]);
   const url = "https://api.tatapower-ddl.com/mmg2/HistoryNotiMMG";
+  const urlProtocol =
+    "https://api.tatapower-ddl.com/mmgportal/main_forms/fromGenerateProtocol_mob.aspx?son=";
 
   const payload = {
     userId: "",
@@ -73,9 +75,28 @@ const HistoryPage = () => {
             <div className="card h-100">
               <div className="card-body">
                 <h5 className="card-title">{item.NOTIFICATION_NO}</h5>
-                <p className="card-title">{item.SRV_ORD_NO}</p>
+                <a
+                  href={urlProtocol + item.SRV_ORD_NO}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {item.SRV_ORD_NO}
+                </a>
                 <p className="card-text">{item.Hold_Cancel_type}</p>
                 <p className="card-text">{item.insertedon}</p>
+              </div>
+              <div className="card-footer">
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={(e) => {
+                    window.open(
+                      "/notepad?nn=" + item.NOTIFICATION_NO,
+                      "_blank"
+                    );
+                  }}
+                >
+                  Notepad
+                </button>
               </div>
             </div>
           </div>
