@@ -2,12 +2,11 @@ import { useState } from "react";
 import http from "./services/httpService";
 import { copyToClipboard } from "./services/utilsService";
 
-// Sample data
-const items = [
-  { id: 1, title: "Item One", description: "This is the first item." },
-  { id: 2, title: "Item Two", description: "This is the second item." },
-  { id: 3, title: "Item Three", description: "This is the third item." },
-];
+const statusToBgClass = {
+  Done: "bg-success text-white",
+  CANCEL: "bg-danger text-white",
+  default: "bg-light text-dark",
+};
 
 const HistoryPage = () => {
   const [userId, setUserId] = useState("");
@@ -73,7 +72,12 @@ const HistoryPage = () => {
         )}
         {historyList.map((item) => (
           <div className="col-md-4 mb-4" key={item.NOTIFICATION_NO}>
-            <div className="card h-100">
+            <div
+              className={`card h-100 ${
+                statusToBgClass[item.Hold_Cancel_type] ||
+                statusToBgClass.default
+              }`}
+            >
               <div className="card-body">
                 <h5 className="card-title">{item.NOTIFICATION_NO}</h5>
                 <a
@@ -99,7 +103,7 @@ const HistoryPage = () => {
                   Notepad
                 </button>
                 <button
-                  className="btn btn-outline-secondary btn-sm ms-2"
+                  className="btn btn-info btn-sm ms-2 rounded"
                   onClick={(e) => {
                     copyToClipboard(item.NOTIFICATION_NO);
                   }}
