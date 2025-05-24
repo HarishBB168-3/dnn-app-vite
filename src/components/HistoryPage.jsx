@@ -27,7 +27,10 @@ const HistoryPage = () => {
       console.log("Status : ", result.status);
       const data = JSON.parse(result.data);
       console.log(data);
-      setHistoryList(data);
+      const sortedItems = [...data].sort((a, b) =>
+        b.insertedon.localeCompare(a.insertedon)
+      );
+      setHistoryList(sortedItems);
     } catch (e) {}
     setIsLoading(false);
   };
