@@ -145,29 +145,29 @@ const NNListPage = () => {
 
       <div className="d-flex gap-2 row">
         <div className="form-check col">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="filterType"
-            id="all"
-            onChange={() => setFilterType("")}
-            checked={"" === filterType}
-          />
-          <label className="form-check-label" htmlFor="all">
+          <label className="form-check-label w-100 h-100" htmlFor="all">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="filterType"
+              id="all"
+              onChange={() => setFilterType("")}
+              checked={"" === filterType}
+            />
             All
           </label>
         </div>
         {uniqueNNTypeList.map((item, index) => (
           <div className="form-check col" key={index}>
-            <input
-              className="form-check-input"
-              type="radio"
-              name="filterType"
-              id={item}
-              onChange={() => setFilterType(item)}
-              checked={item === filterType}
-            />
-            <label className="form-check-label" htmlFor={item}>
+            <label className="form-check-label w-100 h-100" htmlFor={item}>
+              <input
+                className="form-check-input"
+                type="radio"
+                name="filterType"
+                id={item}
+                onChange={() => setFilterType(item)}
+                checked={item === filterType}
+              />
               {item}
             </label>
           </div>
