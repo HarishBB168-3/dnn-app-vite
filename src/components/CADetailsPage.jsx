@@ -13,10 +13,14 @@ const CADetailsPage = () => {
     searchTypes.find((i) => i.name === "ca")
   );
   const [searchTerm, setSearchTerm] = useState("");
+  const [proxy, setProxy] = useState("");
+  const [port, setPort] = useState("");
+  const [useProxy, setUseProxy] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const url = "http://103.178.97.26:8070/cmgsrv2/neighbouring_Ca";
+  // const url = "http://103.178.97.26:8070/cmgsrv2/neighbouring_Ca";
+  const url = "http://dnn-app.alwaysdata.net/get-external-data/";
 
   const getPayload = () => {
     if (searchType.name === "ca") return { cano: searchTerm };
@@ -28,7 +32,23 @@ const CADetailsPage = () => {
   const getCADetails = async () => {
     setIsLoading(true);
     try {
-      const result = await http.post(url, getPayload());
+      let result = null;
+      if (useProxy)
+        result = await http.get(
+          url +
+            "?" +
+            Object.entries(getPayload())
+              .map(([key, value]) => `${key}=${value}`)
+              .join("&") +
+            `&proxy=${proxy}&port=${port}`
+        );
+      result = await http.get(
+        url +
+          "?" +
+          Object.entries(getPayload())
+            .map(([key, value]) => `${key}=${value}`)
+            .join("&")
+      );
       console.log("Status : ", result.status);
       const data = JSON.parse(result.data);
       console.log(data);
@@ -71,6 +91,44 @@ const CADetailsPage = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder={searchType.label}
           />
+          <label htmlFor="proxyInput" className="from-label">
+            Proxy
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="proxyInput"
+            onChange={(e) => setProxy(e.target.value)}
+            value={proxy}
+            placeholder="Proxy"
+          />
+          <label htmlFor="portInput" className="from-label">
+            Port
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="portInput"
+            onChange={(e) => setPort(e.target.value)}
+            value={port}
+            placeholder="Port"
+          />
+
+          <div className="form-check form-switch">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="flexSwitchCheckDefault"
+              checked={useProxy}
+              onChange={(e) => setUseProxy(e.target.checked)}
+            />
+            <label
+              className="form-check-label"
+              htmlFor="flexSwitchCheckDefault"
+            >
+              Use Proxy
+            </label>
+          </div>
         </div>
         <button
           className="btn btn-primary"
