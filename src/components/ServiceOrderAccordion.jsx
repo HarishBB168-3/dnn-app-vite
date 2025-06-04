@@ -23,6 +23,8 @@ function ServiceOrderAccordion({ data, index }) {
     if (
       data.SOURCE === "Website" ||
       data.SOURCE === "Consumer Walk-in" ||
+      data.SOURCE === "Consumer Call" ||
+      data.SOURCE === "WhatsApp" ||
       data.SOURCE === "E-Mail"
     )
       return true;
