@@ -108,7 +108,7 @@ const HistoryPage = () => {
                 <button
                   className="btn btn-info btn-sm ms-2 rounded"
                   onClick={(e) => {
-                    copyToClipboard(item.NOTIFICATION_NO);
+                    copyToClipboard(item.NOTIFICATION_NO.slice(2));
                   }}
                 >
                   Copy NN
