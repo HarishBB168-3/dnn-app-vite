@@ -50,6 +50,9 @@ function ServiceOrderAccordion({ data, index }) {
                 <div className="col-md-4">
                   <strong>Type:</strong> {data.NOTIF_TYPE_DESC || "N/A"}
                   <br />
+                  <strong>Priority Type:</strong>{" "}
+                  {data.NOTIF_PRIORITY_DESC || "N/A"}
+                  <br />
                   <strong>Name:</strong> {data.NAME || "N/A"}
                   <br />
                   <strong>Notif #:</strong> {data.NOTIFICATION_NO || "N/A"}
