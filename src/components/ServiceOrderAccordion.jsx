@@ -25,10 +25,22 @@ function ServiceOrderAccordion({ data, index }) {
       data.SOURCE === "Consumer Walk-in" ||
       data.SOURCE === "Consumer Call" ||
       data.SOURCE === "WhatsApp" ||
+      data.SOURCE === "IVR Complaints" ||
+      data.SOURCE === "Chatbot" ||
       data.SOURCE === "E-Mail"
     )
       return true;
     else return false;
+  };
+
+  const isInternalAnalysisCase = () => {
+    if (
+      data.SOURCE === "Internal Analysis" ||
+      data.SOURCE === "RRG Initiated D/Transfer" ||
+      data.SOURCE === "MRG Initiated"
+    )
+      return true;
+    return false;
   };
 
   return (
@@ -42,7 +54,13 @@ function ServiceOrderAccordion({ data, index }) {
             data-bs-target={`#${collapseId}`}
             aria-expanded="false"
             aria-controls={collapseId}
-            style={{ background: isPACase() ? "#eae2b7" : "inherit" }}
+            style={{
+              background: isPACase()
+                ? "#eae2b7"
+                : isInternalAnalysisCase()
+                ? "inherit"
+                : "#ffc8dd",
+            }}
           >
             <div className="container-fluid">
               <strong>{index}</strong>
