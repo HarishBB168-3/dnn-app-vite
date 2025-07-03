@@ -66,7 +66,16 @@ const NNListPage = () => {
     });
   }
 
+  const clearData = () => {
+    setNnList([]);
+    setFilteredList([]);
+    setFilterType("");
+    setNNTypeList([]);
+    setZoneList([]);
+  };
+
   const getNNList = async () => {
+    clearData();
     setIsLoading(true);
     try {
       const result = await http.post(url, { ...payload, userId: userId });
