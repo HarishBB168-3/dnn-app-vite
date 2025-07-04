@@ -19,6 +19,9 @@ const Home = () => {
         <li className="list-group-item">
           <Link to="/history">History</Link>
         </li>
+        <li className="list-group-item">
+          <Link to="/poleAdvSearch">Pole Search</Link>
+        </li>
       </ul>
     </div>
   );

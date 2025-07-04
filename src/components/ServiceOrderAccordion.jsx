@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { getPoleGPSLink } from "./services/poleService";
+import { useNavigate } from "react-router-dom";
 
 function ServiceOrderAccordion({ data, index }) {
   const accordionId = `accordion-${index}`;
@@ -7,6 +8,7 @@ function ServiceOrderAccordion({ data, index }) {
   const collapseId = `collapse-${index}`;
 
   const [poleLink, setPoleLink] = useState("");
+  const navigate = useNavigate();
 
   const copyToClipboard = (text) => {
     if (navigator.clipboard && text) {
@@ -207,6 +209,16 @@ function ServiceOrderAccordion({ data, index }) {
                     >
                       {poleLink}
                     </a>
+                    <br />
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-secondary ms-2"
+                      onClick={(e) => {
+                        navigate("/poleAdvSearch?poleNo=" + data.POLE);
+                      }}
+                    >
+                      Treat Link
+                    </button>
                   </>
                 )}
                 <br />
