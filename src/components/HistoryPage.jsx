@@ -42,6 +42,7 @@ const HistoryPage = () => {
           Hold_Cancel_type: obj.Hold_Cancel_type,
           mtrType: "",
           workType: "",
+          SRV_ORD_NO: obj.SRV_ORD_NO,
         };
       });
       setCaseReportList(mCaseReportList);
@@ -78,6 +79,21 @@ const HistoryPage = () => {
     setReportText(report);
   };
 
+  const bulkDownload = () => {
+    alert("Starting download");
+
+    const itemsToDownload = caseReportList
+      .filter((item) => item.mtrType && item.workType)
+      .map((item) => urlProtocol + item.SRV_ORD_NO);
+
+    alert(JSON.stringify(itemsToDownload));
+    // Open all immediately
+    for (let i = 0; i < itemsToDownload.length; i++) {
+      window.open(itemsToDownload[i], "_blank");
+    }
+    alert("Downloaded successfully");
+  };
+
   const copyReport = () => {
     copyToClipboard(reportText);
   };
@@ -107,15 +123,26 @@ const HistoryPage = () => {
         >
           Submit
         </button>
+        <br />
         <button
           type="submit"
-          className="btn btn-primary mx-2"
+          className="btn btn-sm btn-info my-2"
           onClick={(e) => {
             e.preventDefault();
             prepareReport();
           }}
         >
           Prepare Report
+        </button>
+        <button
+          type="submit"
+          className="btn btn-sm btn-warning mx-2"
+          onClick={(e) => {
+            e.preventDefault();
+            bulkDownload();
+          }}
+        >
+          Bulk download
         </button>
       </form>
 
