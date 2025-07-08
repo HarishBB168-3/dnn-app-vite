@@ -77,16 +77,6 @@ function ServiceOrderAccordion({ data, index }) {
                   <br />
                   <strong>Notif #:</strong> {data.NOTIFICATION_NO || "N/A"}
                   <br />
-                  <a
-                    href={
-                      "https://api.tatapower-ddl.com/cmg2/main_forms/frmSVRGenerate.aspx?Name=" +
-                      data.NOTIFICATION_NO
-                    }
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    CMG Link
-                  </a>
                 </div>
                 <div className="col-md-4">
                   <strong>Date:</strong> {data.NOTIFICATION_DATE || "N/A"}
@@ -135,6 +125,9 @@ function ServiceOrderAccordion({ data, index }) {
                   <br />
                   <strong>New Class:</strong>{" "}
                   {data.NEW_MTR_CONST_CLASS || "N/A"}
+                  <br />
+                  <strong>Connection Through :</strong>{" "}
+                  {data.CONNECTION_THROUGH || "N/A"}
                   <br />
                 </div>
               </div>
