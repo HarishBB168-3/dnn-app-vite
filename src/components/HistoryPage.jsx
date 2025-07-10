@@ -67,14 +67,15 @@ const HistoryPage = () => {
       )
       .map((item) => item.NOTIFICATION_NO);
 
-    const report = [
-      ...doneItems,
-      "",
-      "Cancel",
-      ...cancelItems,
-      "",
-      reportLastLine,
-    ].join("\n");
+    const reportParts = [...doneItems, ""];
+
+    if (cancelItems.length > 0) {
+      reportParts.push("Cancel", ...cancelItems, "");
+    }
+
+    reportParts.push(reportLastLine);
+
+    const report = reportParts.join("\n");
 
     setReportText(report);
   };
