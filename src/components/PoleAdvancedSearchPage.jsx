@@ -5,6 +5,7 @@ import { getPoleGPSLink } from "./services/poleService";
 const PoleAdvancedSearchPage = () => {
   const [poleNo, setPoleNo] = useState("");
   const [result, setResult] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { search } = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(search);
@@ -43,6 +44,20 @@ const PoleAdvancedSearchPage = () => {
     return results;
   };
 
+  const generateLinks = async (plNo) => {
+    const results = [];
+    const poleNos = [plNo, ...generateModifiedTexts(plNo)];
+
+    setIsLoading(true);
+
+    for (const item of poleNos) {
+      const poleLink = await getPoleGPSLink(item);
+      results.push({ poleNo: item, link: poleLink });
+    }
+    setResult(results);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     const poleNo = queryParams.get("poleNo");
 
@@ -51,6 +66,7 @@ const PoleAdvancedSearchPage = () => {
       console.log("Getting poleNo from url with:", { poleNo });
 
       setPoleNo(poleNo);
+      generateLinks(poleNo);
       // Put your logic here, e.g.:
       // fetchData(type, value);
     } else {
@@ -80,17 +96,7 @@ const PoleAdvancedSearchPage = () => {
           className="btn btn-primary"
           onClick={(e) => {
             e.preventDefault();
-
-            const results = [];
-            const poleNos = generateModifiedTexts(poleNo);
-            const doJob = async () => {
-              for (const item of poleNos) {
-                const poleLink = await getPoleGPSLink(item);
-                results.push({ poleNo: item, link: poleLink });
-              }
-              setResult(results);
-            };
-            doJob();
+            generateLinks(poleNo);
           }}
         >
           Submit
@@ -98,6 +104,12 @@ const PoleAdvancedSearchPage = () => {
       </form>
 
       <h3>Possible pole nos : </h3>
+
+      {isLoading && (
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      )}
 
       <div className="row">
         <h1>Result</h1>
