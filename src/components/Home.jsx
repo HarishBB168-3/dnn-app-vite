@@ -14,6 +14,9 @@ const Home = () => {
           <Link to="/cadetails">CA Details</Link>
         </li>
         <li className="list-group-item">
+          <Link to="/camdata">CA MData</Link>
+        </li>
+        <li className="list-group-item">
           <Link to="/sllist">Seals Details</Link>
         </li>
         <li className="list-group-item">

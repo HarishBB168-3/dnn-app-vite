@@ -8,6 +8,7 @@ import CADetailsPage from "./components/CADetailsPage";
 import SealDetailsPage from "./components/SealDetailsPage";
 import HistoryPage from "./components/HistoryPage";
 import PoleAdvancedSearchPage from "./components/PoleAdvancedSearchPage";
+import CAMasterDataPage from "./components/CAMasterDataPage";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/notepad" element={<NotepadPage />} />
           <Route path="/nnlist" element={<NNListPage />} />
           <Route path="/cadetails" element={<CADetailsPage />} />
+          <Route path="/camdata" element={<CAMasterDataPage />} />
           <Route path="/sllist" element={<SealDetailsPage />} />
           <Route path="/history" element={<HistoryPage />} />
           <Route path="/poleAdvSearch" element={<PoleAdvancedSearchPage />} />
