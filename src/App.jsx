@@ -9,6 +9,7 @@ import SealDetailsPage from "./components/SealDetailsPage";
 import HistoryPage from "./components/HistoryPage";
 import PoleAdvancedSearchPage from "./components/PoleAdvancedSearchPage";
 import CAMasterDataPage from "./components/CAMasterDataPage";
+import SODownloadPage from "./components/SODownloadPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/sllist" element={<SealDetailsPage />} />
           <Route path="/history" element={<HistoryPage />} />
           <Route path="/poleAdvSearch" element={<PoleAdvancedSearchPage />} />
+          <Route path="/soDownload" element={<SODownloadPage />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </div>

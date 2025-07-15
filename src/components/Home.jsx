@@ -25,6 +25,9 @@ const Home = () => {
         <li className="list-group-item">
           <Link to="/poleAdvSearch">Pole Search</Link>
         </li>
+        <li className="list-group-item">
+          <Link to="/soDownload">SO Download</Link>
+        </li>
       </ul>
     </div>
   );
