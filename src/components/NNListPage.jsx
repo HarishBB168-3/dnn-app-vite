@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import http from "./services/httpService";
-import { downloadCSV, getUniqueValuesByKey } from "./services/utilsService";
+import {
+  downloadCSV,
+  getUniqueValuesByKey,
+  getUniqueValuesNCountByKey,
+} from "./services/utilsService";
 import ServiceOrderAccordion from "./ServiceOrderAccordion";
 
 const filterTypes = [
@@ -28,7 +32,7 @@ const NNListPage = () => {
     console.log("Filter result : ", result);
     console.log("Filter type : ", filterType);
     setFilteredList(result);
-    setNNTypeList(getUniqueValuesByKey(nnList, "NOTIF_TYPE_DESC"));
+    setNNTypeList(getUniqueValuesNCountByKey(nnList, "NOTIF_TYPE_DESC"));
     setZoneList(getUniqueValuesByKey(nnList, "ZONECODE"));
   }, [filterType]);
 
@@ -84,7 +88,7 @@ const NNListPage = () => {
       console.log(data);
       const sortedData = sortByPoleSuffix(data);
       setNnList(sortedData);
-      setNNTypeList(getUniqueValuesByKey(sortedData, "NOTIF_TYPE_DESC"));
+      setNNTypeList(getUniqueValuesNCountByKey(sortedData, "NOTIF_TYPE_DESC"));
       setZoneList(getUniqueValuesByKey(sortedData, "ZONECODE"));
     } catch (e) {}
     setIsLoading(false);
@@ -136,9 +140,9 @@ const NNListPage = () => {
       {showExtraData && (
         <div className="d-flex">
           <ul className="list-group">
-            {uniqueNNTypeList.map((item) => (
-              <li key={item} className="list-group-item">
-                {item}
+            {[...uniqueNNTypeList].map(([nnType, count]) => (
+              <li key={nnType} className="list-group-item">
+                {nnType} <span className="badge text-bg-warning">{count}</span>
               </li>
             ))}
           </ul>
@@ -166,18 +170,18 @@ const NNListPage = () => {
             All
           </label>
         </div>
-        {uniqueNNTypeList.map((item, index) => (
-          <div className="form-check col" key={index}>
-            <label className="form-check-label w-100 h-100" htmlFor={item}>
+        {[...uniqueNNTypeList].map(([nnType, count]) => (
+          <div className="form-check col" key={nnType}>
+            <label className="form-check-label w-100 h-100" htmlFor={nnType}>
               <input
                 className="form-check-input"
                 type="radio"
                 name="filterType"
-                id={item}
-                onChange={() => setFilterType(item)}
-                checked={item === filterType}
+                id={nnType}
+                onChange={() => setFilterType(nnType)}
+                checked={nnType === filterType}
               />
-              {item}
+              {nnType}
             </label>
           </div>
         ))}

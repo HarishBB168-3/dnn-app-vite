@@ -24,6 +24,14 @@ export const getUniqueValuesByKey = (array, key) => {
   return [...new Set(array.map((item) => item[key]))];
 };
 
+export const getUniqueValuesNCountByKey = (array, key) => {
+  const frequencyMap = new Map();
+  for (const item of array) {
+    frequencyMap.set(item[key], (frequencyMap.get(item[key]) || 0) + 1);
+  }
+  return frequencyMap;
+};
+
 export const generateNameIdObjects = (names) => {
   return names.map((name) => {
     const id = name
