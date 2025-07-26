@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import http from "./services/httpService";
 import {
   downloadCSV,
-  getUniqueValuesByKey,
   getUniqueValuesNCountByKey,
 } from "./services/utilsService";
 import ServiceOrderAccordion from "./ServiceOrderAccordion";
@@ -33,7 +32,7 @@ const NNListPage = () => {
     console.log("Filter type : ", filterType);
     setFilteredList(result);
     setNNTypeList(getUniqueValuesNCountByKey(nnList, "NOTIF_TYPE_DESC"));
-    setZoneList(getUniqueValuesByKey(nnList, "ZONECODE"));
+    setZoneList(getUniqueValuesNCountByKey(nnList, "ZONECODE"));
   }, [filterType]);
 
   const url = "https://api.tatapower-ddl.com/mmg2/GetCustomerDetailsMMG";
@@ -89,7 +88,7 @@ const NNListPage = () => {
       const sortedData = sortByPoleSuffix(data);
       setNnList(sortedData);
       setNNTypeList(getUniqueValuesNCountByKey(sortedData, "NOTIF_TYPE_DESC"));
-      setZoneList(getUniqueValuesByKey(sortedData, "ZONECODE"));
+      setZoneList(getUniqueValuesNCountByKey(sortedData, "ZONECODE"));
     } catch (e) {}
     setIsLoading(false);
   };
@@ -147,9 +146,9 @@ const NNListPage = () => {
             ))}
           </ul>
           <ul className="list-group">
-            {uniqueZoneList.map((item) => (
-              <li key={item} className="list-group-item">
-                {item}
+            {[...uniqueZoneList].map(([zoneNo, count]) => (
+              <li key={zoneNo} className="list-group-item">
+                {zoneNo} <span className="badge text-bg-warning">{count}</span>
               </li>
             ))}
           </ul>
