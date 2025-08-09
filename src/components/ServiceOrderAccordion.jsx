@@ -129,6 +129,16 @@ function ServiceOrderAccordion({ data, index }) {
                   <strong>Connection Through :</strong>{" "}
                   {data.CONNECTION_THROUGH || "N/A"}
                   <br />
+                  <div
+                    className={
+                      data.ADVICE_OLD_METER
+                        ? `p-3 mb-2 bg-warning text-dark`
+                        : ""
+                    }
+                  >
+                    <strong>Advice for old meter :</strong>{" "}
+                    {data.ADVICE_OLD_METER || "N/A"}
+                  </div>
                 </div>
               </div>
             </div>
