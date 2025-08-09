@@ -28,6 +28,9 @@ const Home = () => {
         <li className="list-group-item">
           <Link to="/soDownload">SO Download</Link>
         </li>
+        <li className="list-group-item">
+          <Link to="/cableLoadTable">Cable Load Table</Link>
+        </li>
       </ul>
     </div>
   );
