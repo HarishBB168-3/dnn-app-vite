@@ -207,7 +207,10 @@ function ServiceOrderAccordion({ data, index }) {
                       type="button"
                       className="btn btn-sm btn-outline-secondary ms-2"
                       onClick={(e) => {
-                        navigate("/poleAdvSearch?poleNo=" + data.POLE);
+                        window.open(
+                          "/poleAdvSearch?poleNo=" + data.POLE,
+                          "_blank"
+                        );
                       }}
                     >
                       Treat Link
