@@ -139,6 +139,17 @@ function ServiceOrderAccordion({ data, index }) {
                     <strong>Advice for old meter :</strong>{" "}
                     {data.ADVICE_OLD_METER || "N/A"}
                   </div>
+                  <div
+                    style={{
+                      width: "1px",
+                      height: "1px",
+                      overflow: "hidden",
+                      fontSize: "1px",
+                    }}
+                  >
+                    <br />
+                    <strong>Address :</strong> {data.ADDRESS || "N/A"}
+                  </div>
                 </div>
               </div>
             </div>
