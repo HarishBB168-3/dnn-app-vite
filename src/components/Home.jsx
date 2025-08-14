@@ -31,6 +31,9 @@ const Home = () => {
         <li className="list-group-item">
           <Link to="/cableLoadTable">Cable Load Table</Link>
         </li>
+        <li className="list-group-item">
+          <Link to="/sadhnaChart">Sadhna Chart</Link>
+        </li>
       </ul>
     </div>
   );

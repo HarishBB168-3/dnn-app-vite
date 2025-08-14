@@ -11,6 +11,7 @@ import PoleAdvancedSearchPage from "./components/PoleAdvancedSearchPage";
 import CAMasterDataPage from "./components/CAMasterDataPage";
 import SODownloadPage from "./components/SODownloadPage";
 import CableLoadTablePage from "./components/CableLoadTablePage";
+import SadhnaChartPage from "./components/SadhnaChartPage";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/poleAdvSearch" element={<PoleAdvancedSearchPage />} />
           <Route path="/soDownload" element={<SODownloadPage />} />
           <Route path="/cableLoadTable" element={<CableLoadTablePage />} />
+          <Route path="/sadhnaChart" element={<SadhnaChartPage />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </div>
