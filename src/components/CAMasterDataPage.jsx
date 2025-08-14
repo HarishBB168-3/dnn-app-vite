@@ -17,10 +17,10 @@ const CAMasterDataPage = () => {
       });
       console.log("Status : ", result.status);
       console.log(result.data);
-      setData(JSON.stringify(result.data));
+      setData(JSON.stringify(result.data, undefined, 2));
     } catch (e) {
       console.log(e.response.data);
-      setData(JSON.stringify(e.response.data));
+      setData(JSON.stringify(e.response.data, undefined, 2));
     }
     setIsLoading(false);
   };
