@@ -12,6 +12,7 @@ import CAMasterDataPage from "./components/CAMasterDataPage";
 import SODownloadPage from "./components/SODownloadPage";
 import CableLoadTablePage from "./components/CableLoadTablePage";
 import SadhnaChartPage from "./components/SadhnaChartPage";
+import MeterSealsPage from "./components/MeterSealsPage";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/soDownload" element={<SODownloadPage />} />
           <Route path="/cableLoadTable" element={<CableLoadTablePage />} />
           <Route path="/sadhnaChart" element={<SadhnaChartPage />} />
+          <Route path="/meterSeals" element={<MeterSealsPage />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </div>

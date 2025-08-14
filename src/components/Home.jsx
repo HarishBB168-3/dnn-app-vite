@@ -34,6 +34,9 @@ const Home = () => {
         <li className="list-group-item">
           <Link to="/sadhnaChart">Sadhna Chart</Link>
         </li>
+        <li className="list-group-item">
+          <Link to="/meterSeals">Meter Seals</Link>
+        </li>
       </ul>
     </div>
   );
