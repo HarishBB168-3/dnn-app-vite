@@ -251,6 +251,19 @@ function ServiceOrderAccordion({ data, index }) {
                 >
                   Notepad History
                 </button>
+                <br />
+                <button
+                  type="button"
+                  className="btn btn-sm btn-warning "
+                  onClick={(e) => {
+                    window.open(
+                      "/meterSeals?mNo=" + data.OLD_METER_NO,
+                      "_blank"
+                    );
+                  }}
+                >
+                  Meter Seals - {data.OLD_METER_NO || "N/A"}
+                </button>
               </div>
               {Object.entries(data).map(([key, value]) => (
                 <div className="col-md-6 mb-2" key={key}>
