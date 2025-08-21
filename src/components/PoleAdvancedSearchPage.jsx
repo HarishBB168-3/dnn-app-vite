@@ -75,6 +75,10 @@ const PoleAdvancedSearchPage = () => {
     }
   }, [search]); // re-run if the query string changes
 
+  useEffect(() => {
+    document.title = `Pole : ${poleNo}`;
+  }, [poleNo]);
+
   return (
     <div className="container mt-4">
       <form>
