@@ -23,10 +23,20 @@ const SadhnaChartPage = () => {
     setData(newData);
   };
 
+  const formatDate = (input) => {
+    const parts = input.split("-");
+    if (parts.length !== 3) return "Invalid date";
+
+    const [yyyy, mm, dd] = parts;
+    if (!yyyy || !mm || !dd) return "Invalid date";
+
+    return `${dd.padStart(2, "0")}/${mm.padStart(2, "0")}/${yyyy}`;
+  };
+
   const prepareReport = () => {
     const newReport = `Hare Krishna Prabhu Ji
 Pamho
-Date : ${data.date}
+Date : ${formatDate(data.date)}
 Chant B4 MA : ${data.b4ma}
 Till 7:00am : ${data.till7}
 Total Round : ${data.totalRound}
@@ -239,6 +249,18 @@ ${data.name}`;
       </form>
 
       <div className="row">
+        <div className="col-auto align-self-start my-1">
+          <button
+            type="submit"
+            className="btn btn-sm btn-primary"
+            onClick={(e) => {
+              e.preventDefault();
+              copyReport();
+            }}
+          >
+            Copy Report
+          </button>
+        </div>
         <h4>Report</h4>
         <textarea
           className="form-control"
