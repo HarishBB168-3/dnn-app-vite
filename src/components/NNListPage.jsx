@@ -24,6 +24,7 @@ const NNListPage = () => {
   const [uniqueNNTypeList, setNNTypeList] = useState([]);
   const [uniqueZoneList, setZoneList] = useState([]);
   const [showExtraData, setShowExtraData] = useState(false);
+  const [sortByIssueDate, setSortByIssueDate] = useState(false);
 
   useEffect(() => {
     const data = [...nnList];
@@ -93,7 +94,30 @@ const NNListPage = () => {
     setIsLoading(false);
   };
 
-  const listToUse = filteredList.length === 0 ? nnList : filteredList;
+  function sortByDate(arr, key, order = "asc") {
+    return arr.sort((a, b) => {
+      // Parse dd-mm-yyyy into Date objects
+      const [dayA, monthA, yearA] = a[key].split("-").map(Number);
+      const [dayB, monthB, yearB] = b[key].split("-").map(Number);
+
+      const dateA = new Date(yearA, monthA - 1, dayA);
+      const dateB = new Date(yearB, monthB - 1, dayB);
+
+      // Compare based on order
+      if (order === "asc") {
+        return dateA - dateB;
+      } else {
+        return dateB - dateA;
+      }
+    });
+  }
+
+  let listToUse = filteredList.length === 0 ? nnList : filteredList;
+
+  if (sortByIssueDate) {
+    listToUse = sortByDate(listToUse, "SERVICE_ORD_DATE", "desc");
+    console.log("Sorting by date in desc");
+  }
 
   return (
     <div className="container ">
@@ -129,12 +153,33 @@ const NNListPage = () => {
         Download as CSV
       </button>
 
-      <button
-        className="btn btn-secondary btn-sm mx-3"
-        onClick={() => setShowExtraData(!showExtraData)}
-      >
-        Show Extra Data
-      </button>
+      <div className="form-check form-switch">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          id="showExtraData"
+          checked={showExtraData}
+          onChange={(e) => setShowExtraData(e.target.checked)}
+        />
+        <label className="form-check-label" for="showExtraData">
+          Show Extra Data
+        </label>
+      </div>
+
+      <div className="form-check form-switch">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          id="sortIssueDate"
+          checked={sortByIssueDate}
+          onChange={(e) => setSortByIssueDate(e.target.checked)}
+        />
+        <label className="form-check-label" for="sortIssueDate">
+          Sort by Issue Date
+        </label>
+      </div>
 
       {showExtraData && (
         <div className="d-flex">
