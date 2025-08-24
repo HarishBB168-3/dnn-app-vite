@@ -74,21 +74,64 @@ const MeterSealsPage = () => {
       </form>
 
       {isLoading && (
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
+        <div className="d-flex justify-content-center my-3">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
         </div>
       )}
 
       <div className="row">
         <h4>Report</h4>
-        <textarea
-          className="form-control"
-          name=""
-          id=""
-          rows="15"
-          value={JSON.stringify(slData, undefined, 2)}
-          readOnly
-        />
+
+        {slData.length === 0 && !isLoading && (
+          <div className="text-muted">No data available.</div>
+        )}
+
+        <div className="accordion" id="sealAccordion">
+          {slData.map((item, index) => (
+            <div className="accordion-item" key={index}>
+              <h2 className="accordion-header" id={`heading-${index}`}>
+                <button
+                  className="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target={`#collapse-${index}`}
+                  aria-expanded="false"
+                  aria-controls={`collapse-${index}`}
+                >
+                  Seal: {item.ZSSERNR || "N/A"} -&gt; {item.ZPOSITION || "N/A"}
+                </button>
+              </h2>
+              <div
+                id={`collapse-${index}`}
+                className="accordion-collapse collapse"
+                aria-labelledby={`heading-${index}`}
+                data-bs-parent="#sealAccordion"
+              >
+                <div className="accordion-body">
+                  <ul className="list-group list-group-flush">
+                    <li className="list-group-item">
+                      <strong>Meter No:</strong> {item.OLD_METER_NO || "N/A"}
+                    </li>
+                    <li className="list-group-item">
+                      <strong>ZEQUNR:</strong> {item.ZEQUNR}
+                    </li>
+                    <li className="list-group-item">
+                      <strong>Status:</strong> {item.ZUSTAT}
+                    </li>
+                    <li className="list-group-item">
+                      <strong>Order:</strong> {item.ZORDER || "?"}
+                    </li>
+                    <li className="list-group-item">
+                      <strong>Issue To:</strong> {item.ZISS_TO || "?"}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
