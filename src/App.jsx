@@ -13,6 +13,7 @@ import SODownloadPage from "./components/SODownloadPage";
 import CableLoadTablePage from "./components/CableLoadTablePage";
 import SadhnaChartPage from "./components/SadhnaChartPage";
 import MeterSealsPage from "./components/MeterSealsPage";
+import CancelHoldReasonListPage from "./components/CancelHoldReasonListPage";
 
 function App() {
   return (
@@ -39,6 +40,10 @@ function App() {
           <Route path="/cableLoadTable" element={<CableLoadTablePage />} />
           <Route path="/sadhnaChart" element={<SadhnaChartPage />} />
           <Route path="/meterSeals" element={<MeterSealsPage />} />
+          <Route
+            path="/cancelHoldReasons"
+            element={<CancelHoldReasonListPage />}
+          />
           <Route path="/" element={<Home />} />
         </Routes>
       </div>
