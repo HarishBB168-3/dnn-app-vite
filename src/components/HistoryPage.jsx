@@ -155,26 +155,6 @@ const HistoryPage = () => {
       {reportText && (
         <div className="row">
           <h4>Report</h4>
-          <textarea
-            className="form-control"
-            name=""
-            id=""
-            rows="15"
-            value={reportText}
-            readOnly
-          />
-          <div className="col-auto align-self-start">
-            <button
-              type="submit"
-              className="btn btn-sm btn-primary"
-              onClick={(e) => {
-                e.preventDefault();
-                copyReport();
-              }}
-            >
-              Copy Report
-            </button>
-          </div>
           <div className="mb-3">
             <label htmlFor="userId" className="form-label">
               Last line
@@ -187,6 +167,26 @@ const HistoryPage = () => {
               onChange={(e) => setReportLastLine(e.target.value)}
             />
           </div>
+          <div className="col-auto align-self-start">
+            <button
+              type="submit"
+              className="btn btn-sm btn-primary"
+              onClick={(e) => {
+                e.preventDefault();
+                copyReport();
+              }}
+            >
+              Copy Report
+            </button>
+          </div>
+          <textarea
+            className="form-control"
+            name=""
+            id=""
+            rows="15"
+            value={reportText}
+            readOnly
+          />
         </div>
       )}
       <h3>History - NN count : {historyList.length}</h3>
