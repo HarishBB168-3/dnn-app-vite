@@ -65,7 +65,7 @@ function ServiceOrderAccordion({ data, index }) {
             }}
           >
             <div className="container-fluid">
-              <strong>{index}</strong>
+              <strong>{index + 1}</strong>
               <div className="row">
                 <div className="col-md-4">
                   <strong>Type:</strong> {data.NOTIF_TYPE_DESC || "N/A"}
