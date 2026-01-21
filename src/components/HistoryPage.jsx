@@ -15,6 +15,7 @@ const HistoryPage = () => {
   const [caseReportList, setCaseReportList] = useState([]);
   const [reportText, setReportText] = useState("");
   const [reportLastLine, setReportLastLine] = useState("");
+  const [holdCount, setHoldCount] = useState(0);
 
   const url = "https://api.tatapower-ddl.com/mmg2/HistoryNotiMMG";
   const urlProtocol =
@@ -72,6 +73,8 @@ const HistoryPage = () => {
     if (cancelItems.length > 0) {
       reportParts.push("Cancel", ...cancelItems, "");
     }
+
+    if (holdCount > 0) reportParts.push(`${holdCount} Hold`, "");
 
     reportParts.push(reportLastLine);
 
@@ -166,6 +169,23 @@ const HistoryPage = () => {
               value={reportLastLine}
               onChange={(e) => setReportLastLine(e.target.value)}
             />
+            <div className="mb-3">
+              <label htmlFor="holdCount" className="form-label">
+                Hold Count
+              </label>
+              <select
+                id="holdCount"
+                className="form-select"
+                value={holdCount}
+                onChange={(e) => setHoldCount(Number(e.target.value))}
+              >
+                {Array.from({ length: 21 }, (_, i) => (
+                  <option key={i} value={i}>
+                    {i}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <div className="col-auto align-self-start">
             <button
