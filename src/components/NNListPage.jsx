@@ -25,6 +25,7 @@ const NNListPage = () => {
   const [uniqueZoneList, setZoneList] = useState([]);
   const [showExtraData, setShowExtraData] = useState(false);
   const [sortByIssueDate, setSortByIssueDate] = useState(false);
+  const [showAddressInAccrd, setShowAddressInAccrd] = useState(false);
 
   useEffect(() => {
     const data = [...nnList];
@@ -181,6 +182,20 @@ const NNListPage = () => {
         </label>
       </div>
 
+      <div className="form-check form-switch">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          id="showAddress"
+          checked={showAddressInAccrd}
+          onChange={(e) => setShowAddressInAccrd(e.target.checked)}
+        />
+        <label className="form-check-label" for="showAddress">
+          Show Address
+        </label>
+      </div>
+
       {showExtraData && (
         <div className="d-flex">
           <ul className="list-group">
@@ -249,6 +264,7 @@ const NNListPage = () => {
             key={item.NOTIFICATION_NO}
             data={item}
             index={index}
+            showAddressInAccrd={showAddressInAccrd}
           />
         ))}
       </ul>

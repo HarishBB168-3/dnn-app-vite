@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { getPoleGPSLink } from "./services/poleService";
 import { useNavigate } from "react-router-dom";
 
-function ServiceOrderAccordion({ data, index }) {
+function ServiceOrderAccordion({ data, index, showAddressInAccrd }) {
   const accordionId = `accordion-${index}`;
   const headingId = `heading-${index}`;
   const collapseId = `collapse-${index}`;
@@ -154,6 +154,12 @@ function ServiceOrderAccordion({ data, index }) {
                   </div>
                   <strong>Van No:</strong> {data.VAN_NO || "N/A"}
                   <br />
+                  {showAddressInAccrd && (
+                    <>
+                      <strong>Address:</strong> {data.ADDRESS || "N/A"}
+                      <br />{" "}
+                    </>
+                  )}
                   <div
                     style={{
                       width: "1px",
