@@ -126,6 +126,9 @@ function ServiceOrderAccordion({ data, index }) {
                   <strong>New Class:</strong>{" "}
                   {data.NEW_MTR_CONST_CLASS || "N/A"}
                   <br />
+                  <strong>NEW CTPT RATIO:</strong>{" "}
+                  {data.NEW_CTPT_RATIO || "N/A"}
+                  <br />
                   <strong>Connection Through :</strong>{" "}
                   {data.CONNECTION_THROUGH || "N/A"}
                   <br />
@@ -139,6 +142,18 @@ function ServiceOrderAccordion({ data, index }) {
                     <strong>Advice for old meter :</strong>{" "}
                     {data.ADVICE_OLD_METER || "N/A"}
                   </div>
+                  <div
+                    className={
+                      data.APPOINTMNT_DATE
+                        ? `p-3 mb-2 bg-warning text-dark`
+                        : ""
+                    }
+                  >
+                    <strong>Appointment Date :</strong>{" "}
+                    {data.APPOINTMNT_DATE || "N/A"}
+                  </div>
+                  <strong>Van No:</strong> {data.VAN_NO || "N/A"}
+                  <br />
                   <div
                     style={{
                       width: "1px",
