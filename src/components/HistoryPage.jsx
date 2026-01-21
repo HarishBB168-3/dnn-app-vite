@@ -235,6 +235,8 @@ const HistoryPage = () => {
                   <option value="Poly to Single">Poly to Single</option>
                   <option value="Poly to CT">Poly to CT</option>
                   <option value="CT to Poly">CT to Poly</option>
+                  <option value="CT 200/5">CT 200/5</option>
+                  <option value="CT 400/5">CT 400/5</option>
                 </select>
                 <label htmlFor="workType" className="form-label">
                   Choose Work Type
@@ -251,15 +253,20 @@ const HistoryPage = () => {
                 >
                   <option value="">-- Select Work Type --</option>
                   <option value="NC">NC</option>
-                  <option value="LE">LE</option>
                   <option value="Mass">Mass</option>
-                  <option value="TD MRO">TD MRO</option>
-                  <option value="LV">LV</option>
+                  <option value="Load Enh.">Load Enh.</option>
                   <option value="Faulty">Faulty</option>
-                  <option value="Moveout">Moveout</option>
-                  <option value="Cable change">Cable change</option>
                   <option value="Box Change">Box Change</option>
+                  <option value="Burnt">Burnt</option>
+                  <option value="Cable change">Cable change</option>
+                  <option value="Load Viol.">Load Viol.</option>
+                  <option value="LTT Moveout">LTT Moveout</option>
+                  <option value="Meter Stop">Meter Stop</option>
+                  <option value="Moveout">Moveout</option>
+                  <option value="Net Meter">Net Meter</option>
+                  <option value="Check Meter">Check Meter</option>
                   <option value="Resealing">Resealing</option>
+                  <option value="TD MRO">TD MRO</option>
                 </select>
               </div>
               <div className="card-footer">
