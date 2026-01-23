@@ -53,3 +53,15 @@ export const copyToClipboard = (text) => {
     console.log(navigator);
   }
 };
+
+export const ensureJsonStrict = (value) => {
+  if (typeof value === "string") {
+    return JSON.parse(value);
+  }
+
+  if (typeof value === "object" && value !== null) {
+    return value;
+  }
+
+  throw new Error("Value is not valid JSON");
+};

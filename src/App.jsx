@@ -14,6 +14,7 @@ import CableLoadTablePage from "./components/CableLoadTablePage";
 import SadhnaChartPage from "./components/SadhnaChartPage";
 import MeterSealsPage from "./components/MeterSealsPage";
 import CancelHoldReasonListPage from "./components/CancelHoldReasonListPage";
+import RemarksBuilderPage from "./components/RemarksBuilderPage";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Route path="/cableLoadTable" element={<CableLoadTablePage />} />
           <Route path="/sadhnaChart" element={<SadhnaChartPage />} />
           <Route path="/meterSeals" element={<MeterSealsPage />} />
+          <Route path="/remarksBuilder" element={<RemarksBuilderPage />} />
           <Route
             path="/cancelHoldReasons"
             element={<CancelHoldReasonListPage />}

@@ -40,6 +40,9 @@ const Home = () => {
         <li className="list-group-item">
           <Link to="/cancelHoldReasons">Cancel Hold Reasons</Link>
         </li>
+        <li className="list-group-item">
+          <Link to="/remarksBuilder">Remarks Builder</Link>
+        </li>
       </ul>
     </div>
   );
