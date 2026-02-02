@@ -163,7 +163,7 @@ const NNListPage = () => {
           checked={showExtraData}
           onChange={(e) => setShowExtraData(e.target.checked)}
         />
-        <label className="form-check-label" for="showExtraData">
+        <label className="form-check-label" htmlFor="showExtraData">
           Show Extra Data
         </label>
       </div>
@@ -177,7 +177,7 @@ const NNListPage = () => {
           checked={sortByIssueDate}
           onChange={(e) => setSortByIssueDate(e.target.checked)}
         />
-        <label className="form-check-label" for="sortIssueDate">
+        <label className="form-check-label" htmlFor="sortIssueDate">
           Sort by Issue Date
         </label>
       </div>
@@ -191,7 +191,7 @@ const NNListPage = () => {
           checked={showAddressInAccrd}
           onChange={(e) => setShowAddressInAccrd(e.target.checked)}
         />
-        <label className="form-check-label" for="showAddress">
+        <label className="form-check-label" htmlFor="showAddress">
           Show Address
         </label>
       </div>
