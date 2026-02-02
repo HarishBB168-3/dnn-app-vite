@@ -15,6 +15,7 @@ import SadhnaChartPage from "./components/SadhnaChartPage";
 import MeterSealsPage from "./components/MeterSealsPage";
 import CancelHoldReasonListPage from "./components/CancelHoldReasonListPage";
 import RemarksBuilderPage from "./components/RemarksBuilderPage";
+import HoldRemarksPage from "./components/HoldRemarksPage";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
             path="/cancelHoldReasons"
             element={<CancelHoldReasonListPage />}
           />
+          <Route path="/holdRemarks" element={<HoldRemarksPage />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </div>

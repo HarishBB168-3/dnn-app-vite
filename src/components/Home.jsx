@@ -43,6 +43,9 @@ const Home = () => {
         <li className="list-group-item">
           <Link to="/remarksBuilder">Remarks Builder</Link>
         </li>
+        <li className="list-group-item">
+          <Link to="/holdRemarks">Hold Remark</Link>
+        </li>
       </ul>
     </div>
   );
