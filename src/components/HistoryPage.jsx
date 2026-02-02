@@ -334,57 +334,69 @@ const HistoryPage = () => {
               }`}
             >
               <div className="card-body">
-                <h5 className="card-title">{item.NOTIFICATION_NO}</h5>
-                <a
-                  href={urlProtocol + item.SRV_ORD_NO}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {item.SRV_ORD_NO}
-                </a>
-                <p className="card-text">{item.Hold_Cancel_type}</p>
-                <p className="card-text">{item.insertedon}</p>
-                <label htmlFor="mtrType" className="form-label">
-                  Choose Mtr Type
-                </label>
-                <select
-                  id="mtrType"
-                  className="form-select"
-                  value={caseReportList[idx].mtrType}
-                  onChange={(e) => {
-                    const newCaseReportList = [...caseReportList];
-                    newCaseReportList[idx].mtrType = e.target.value;
-                    setCaseReportList(newCaseReportList);
-                    console.log("Selected Mtr Type:", e.target.value, idx);
-                  }}
-                >
-                  <option value="">-- Select Mtr Type --</option>
-                  {mtrTypeList.map((item, idx) => (
-                    <option key={idx} value={item.value}>
-                      {item.label}
-                    </option>
-                  ))}
-                </select>
-                <label htmlFor="workType" className="form-label">
-                  Choose Work Type
-                </label>
-                <select
-                  id="workType"
-                  className="form-select"
-                  value={caseReportList[idx].workType}
-                  onChange={(e) => {
-                    const newCaseReportList = [...caseReportList];
-                    newCaseReportList[idx].workType = e.target.value;
-                    setCaseReportList(newCaseReportList);
-                  }}
-                >
-                  <option value="">-- Select Work Type --</option>
-                  {workTypeList.map((item, idx) => (
-                    <option key={idx} value={item.value}>
-                      {item.label}
-                    </option>
-                  ))}
-                </select>
+                <div className="d-flex justify-content-between align-items-center">
+                  <h5 className="card-title">{item.NOTIFICATION_NO}</h5>
+                  <a
+                    className="rounded bg-warning p-2"
+                    href={urlProtocol + item.SRV_ORD_NO}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {item.SRV_ORD_NO}
+                  </a>
+                </div>
+
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="card-text">{item.Hold_Cancel_type}</span>
+                  <span className="card-text">{item.insertedon}</span>
+                </div>
+
+                <div className="input-group mb-3">
+                  <label className="input-group-text" htmlFor="mtrType">
+                    Mtr Type
+                  </label>
+                  <select
+                    className="form-select"
+                    id="mtrType"
+                    value={caseReportList[idx].mtrType}
+                    onChange={(e) => {
+                      const newCaseReportList = [...caseReportList];
+                      newCaseReportList[idx].mtrType = e.target.value;
+                      setCaseReportList(newCaseReportList);
+                      console.log("Selected Mtr Type:", e.target.value, idx);
+                    }}
+                  >
+                    <option value="">-- Select Mtr Type --</option>
+                    {mtrTypeList.map((item, idx) => (
+                      <option key={idx} value={item.value}>
+                        {item.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="input-group mb-3">
+                  <label className="input-group-text" htmlFor="workType">
+                    Work Type
+                  </label>
+                  <select
+                    className="form-select"
+                    id="workType"
+                    value={caseReportList[idx].workType}
+                    onChange={(e) => {
+                      const newCaseReportList = [...caseReportList];
+                      newCaseReportList[idx].workType = e.target.value;
+                      setCaseReportList(newCaseReportList);
+                    }}
+                  >
+                    <option value="">-- Select Work Type --</option>
+                    {workTypeList.map((item, idx) => (
+                      <option key={idx} value={item.value}>
+                        {item.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
               <div className="card-footer">
                 <button
