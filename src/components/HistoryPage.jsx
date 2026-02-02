@@ -1,12 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import http from "./services/httpService";
-import { copyToClipboard } from "./services/utilsService";
+import { copyToClipboard, ensureJsonStrict } from "./services/utilsService";
 
 const statusToBgClass = {
   Done: "bg-success text-white",
   CANCEL: "bg-danger text-white",
   default: "bg-light text-dark",
 };
+
+const backupMtrTypeList = [
+  { id: 0, value: "Poly", label: "Poly" },
+  { id: 1, value: "CT", label: "CT" },
+  { id: 2, value: "Single to Poly", label: "Single to Poly" },
+  { id: 3, value: "Poly to Single", label: "Poly to Single" },
+  { id: 4, value: "Poly to CT", label: "Poly to CT" },
+  { id: 5, value: "CT to Poly", label: "CT to Poly" },
+  { id: 6, value: "CT 100/5", label: "CT 100/5" },
+  { id: 7, value: "CT 200/5", label: "CT 200/5" },
+  { id: 8, value: "CT 400/5", label: "CT 400/5" },
+];
+
+const backupWorkTypeList = [
+  { id: 0, value: "NC", label: "NC" },
+  { id: 1, value: "Mass", label: "Mass" },
+  { id: 2, value: "Load Enh.", label: "Load Enh." },
+  { id: 3, value: "Faulty", label: "Faulty" },
+  { id: 4, value: "Box Change", label: "Box Change" },
+  { id: 5, value: "Burnt", label: "Burnt" },
+  { id: 6, value: "Cable change", label: "Cable change" },
+  { id: 7, value: "Load Viol.", label: "Load Viol." },
+  { id: 8, value: "LTT Moveout", label: "LTT Moveout" },
+  { id: 9, value: "Meter Stop", label: "Meter Stop" },
+  { id: 10, value: "Moveout", label: "Moveout" },
+  { id: 11, value: "Net Meter", label: "Net Meter" },
+  { id: 12, value: "Check Meter", label: "Check Meter" },
+  { id: 13, value: "Resealing", label: "Resealing" },
+  { id: 14, value: "Shifting", label: "Shifting" },
+  { id: 14, value: "TD MRO", label: "TD MRO" },
+  { id: 15, value: "Pre/Post", label: "Pre/Post" },
+  { id: 14, value: "RO", label: "RO" },
+];
+
+const STORAGE_KEY = "history_page";
 
 const HistoryPage = () => {
   const [userId, setUserId] = useState("");
@@ -16,6 +51,10 @@ const HistoryPage = () => {
   const [reportText, setReportText] = useState("");
   const [reportLastLine, setReportLastLine] = useState("");
   const [holdCount, setHoldCount] = useState(0);
+  const [settingsUrl, setSettingsUrl] = useState("");
+  const [mtrTypeList, setMtrTypeList] = useState(backupMtrTypeList);
+  const [workTypeList, setWorkTypeList] = useState(backupWorkTypeList);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   const url = "https://api.tatapower-ddl.com/mmg2/HistoryNotiMMG";
   const urlProtocol =
@@ -102,17 +141,70 @@ const HistoryPage = () => {
     copyToClipboard(reportText);
   };
 
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        console.log("Loaded");
+        console.log(parsed);
+        if (parsed.settingsUrl) setSettingsUrl(parsed.settingsUrl);
+        if (parsed.mtrTypeList) setMtrTypeList(parsed.mtrTypeList);
+        if (parsed.workTypeList) setWorkTypeList(parsed.workTypeList);
+      }
+    } catch (e) {
+      console.error("Failed to load saved state", e);
+    } finally {
+      setHasLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoaded) return;
+
+    try {
+      const stateToSave = {
+        settingsUrl,
+        mtrTypeList,
+        workTypeList,
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
+      console.log("state saved");
+      console.log(JSON.stringify(stateToSave));
+    } catch (e) {
+      console.error("Failed to save state", e);
+    }
+  }, [settingsUrl, mtrTypeList, workTypeList]);
+
+  const getDataFromUrl = async (mUrl) => {
+    setIsLoading(true);
+    try {
+      const result = await http.get(mUrl);
+      console.log("Status : ", result.status);
+      console.log(result);
+      const data = ensureJsonStrict(result.data);
+      console.log("Parsed successfully");
+      setMtrTypeList(data.mtrType);
+      setWorkTypeList(data.workType);
+    } catch (e) {}
+    setIsLoading(false);
+  };
+
   return (
     <div className="container mt-4">
       <form>
-        <div className="mb-3">
-          <label htmlFor="userId" className="form-label">
+        <div className="input-group mb-3">
+          <span className="input-group-text" id="labelUserID">
             User Id
-          </label>
+          </span>
           <input
             type="text"
             className="form-control"
+            placeholder="User Id"
+            aria-label="User Id"
+            aria-describedby="labelUserID"
             id="userId"
+            value={userId}
             onChange={(e) => setUserId(e.target.value)}
           />
         </div>
@@ -158,35 +250,67 @@ const HistoryPage = () => {
       {reportText && (
         <div className="row">
           <h4>Report</h4>
-          <div className="mb-3">
-            <label htmlFor="userId" className="form-label">
-              Last line
-            </label>
+
+          <div className="input-group mb-3">
+            <span className="input-group-text" id="settings">
+              Settings Source Url
+            </span>
             <input
               type="text"
               className="form-control"
-              id="userId"
+              placeholder="Settings Source Url"
+              aria-label="Settings Source Url"
+              aria-describedby="settings"
+              id="settings"
+              value={settingsUrl}
+              onChange={(e) => setSettingsUrl(e.target.value)}
+            />
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                getDataFromUrl(settingsUrl);
+              }}
+            >
+              Load Settings
+            </button>
+          </div>
+
+          <div className="input-group mb-3">
+            <span className="input-group-text" id="lastLineLabel">
+              Last line
+            </span>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Last line"
+              aria-label="Last line"
+              aria-describedby="lastLineLabel"
+              id="lastLine"
               value={reportLastLine}
               onChange={(e) => setReportLastLine(e.target.value)}
             />
-            <div className="mb-3">
-              <label htmlFor="holdCount" className="form-label">
-                Hold Count
-              </label>
-              <select
-                id="holdCount"
-                className="form-select"
-                value={holdCount}
-                onChange={(e) => setHoldCount(Number(e.target.value))}
-              >
-                {Array.from({ length: 21 }, (_, i) => (
-                  <option key={i} value={i}>
-                    {i}
-                  </option>
-                ))}
-              </select>
-            </div>
           </div>
+
+          <div className="input-group mb-3">
+            <label className="input-group-text" htmlFor="holdCountSelect">
+              Hold Count
+            </label>
+            <select
+              className="form-select"
+              id="holdCountSelect"
+              value={holdCount}
+              onChange={(e) => setHoldCount(Number(e.target.value))}
+            >
+              {Array.from({ length: 21 }, (_, i) => (
+                <option key={i} value={i}>
+                  {i}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="col-auto align-self-start">
             <button
               type="submit"
@@ -198,7 +322,18 @@ const HistoryPage = () => {
             >
               Copy Report
             </button>
+            <button
+              type="submit"
+              className="btn mx-2 btn-sm btn-info"
+              onClick={(e) => {
+                e.preventDefault();
+                setReportText("");
+              }}
+            >
+              <i className="bi bi-arrows-collapse"></i>
+            </button>
           </div>
+
           <textarea
             className="form-control"
             name=""
@@ -249,14 +384,11 @@ const HistoryPage = () => {
                   }}
                 >
                   <option value="">-- Select Mtr Type --</option>
-                  <option value="Poly">Poly</option>
-                  <option value="CT">CT</option>
-                  <option value="Single to Poly">Single to Poly</option>
-                  <option value="Poly to Single">Poly to Single</option>
-                  <option value="Poly to CT">Poly to CT</option>
-                  <option value="CT to Poly">CT to Poly</option>
-                  <option value="CT 200/5">CT 200/5</option>
-                  <option value="CT 400/5">CT 400/5</option>
+                  {mtrTypeList.map((item, idx) => (
+                    <option key={idx} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
                 </select>
                 <label htmlFor="workType" className="form-label">
                   Choose Work Type
@@ -272,21 +404,11 @@ const HistoryPage = () => {
                   }}
                 >
                   <option value="">-- Select Work Type --</option>
-                  <option value="NC">NC</option>
-                  <option value="Mass">Mass</option>
-                  <option value="Load Enh.">Load Enh.</option>
-                  <option value="Faulty">Faulty</option>
-                  <option value="Box Change">Box Change</option>
-                  <option value="Burnt">Burnt</option>
-                  <option value="Cable change">Cable change</option>
-                  <option value="Load Viol.">Load Viol.</option>
-                  <option value="LTT Moveout">LTT Moveout</option>
-                  <option value="Meter Stop">Meter Stop</option>
-                  <option value="Moveout">Moveout</option>
-                  <option value="Net Meter">Net Meter</option>
-                  <option value="Check Meter">Check Meter</option>
-                  <option value="Resealing">Resealing</option>
-                  <option value="TD MRO">TD MRO</option>
+                  {workTypeList.map((item, idx) => (
+                    <option key={idx} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="card-footer">
