@@ -16,6 +16,7 @@ import MeterSealsPage from "./components/MeterSealsPage";
 import CancelHoldReasonListPage from "./components/CancelHoldReasonListPage";
 import RemarksBuilderPage from "./components/RemarksBuilderPage";
 import HoldRemarksPage from "./components/HoldRemarksPage";
+import RenamePdfPage from "./components/RenamePdfPage";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
             element={<CancelHoldReasonListPage />}
           />
           <Route path="/holdRemarks" element={<HoldRemarksPage />} />
+          <Route path="/renamePdf" element={<RenamePdfPage />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </div>

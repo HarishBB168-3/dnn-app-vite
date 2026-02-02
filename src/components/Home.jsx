@@ -46,6 +46,9 @@ const Home = () => {
         <li className="list-group-item">
           <Link to="/holdRemarks">Hold Remark</Link>
         </li>
+        <li className="list-group-item">
+          <Link to="/renamePdf">Rename PDF</Link>
+        </li>
       </ul>
     </div>
   );
