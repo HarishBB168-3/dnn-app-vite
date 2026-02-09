@@ -17,6 +17,7 @@ import CancelHoldReasonListPage from "./components/CancelHoldReasonListPage";
 import RemarksBuilderPage from "./components/RemarksBuilderPage";
 import HoldRemarksPage from "./components/HoldRemarksPage";
 import RenamePdfPage from "./components/RenamePdfPage";
+import ClipboardPage from "./components/ClipboardPage";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
           />
           <Route path="/holdRemarks" element={<HoldRemarksPage />} />
           <Route path="/renamePdf" element={<RenamePdfPage />} />
+          <Route path="/clipboard" element={<ClipboardPage />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </div>
