@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-import http from "./services/httpService";
-import { copyToClipboard, ensureJsonStrict } from "./services/utilsService";
+import http from "../../components/services/httpService";
+import {
+  copyToClipboard,
+  ensureJsonStrict,
+} from "../../components/services/utilsService";
 
 const statusToBgClass = {
   Done: "bg-success text-white",

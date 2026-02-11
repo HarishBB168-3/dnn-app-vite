@@ -6,7 +6,7 @@ import NNListPage from "./components/NNListPage";
 import "./App.css";
 import CADetailsPage from "./components/CADetailsPage";
 import SealDetailsPage from "./components/SealDetailsPage";
-import HistoryPage from "./components/HistoryPage";
+import HistoryPage from "./pages/HistoryPage";
 import PoleAdvancedSearchPage from "./components/PoleAdvancedSearchPage";
 import CAMasterDataPage from "./components/CAMasterDataPage";
 import SODownloadPage from "./components/SODownloadPage";
