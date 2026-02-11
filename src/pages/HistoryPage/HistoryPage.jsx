@@ -1,49 +1,10 @@
 import { useEffect, useState } from "react";
 import http from "../../components/services/httpService";
-import {
-  copyToClipboard,
-  ensureJsonStrict,
-} from "../../components/services/utilsService";
+import { ensureJsonStrict } from "../../components/services/utilsService";
 import Card from "./components/Card";
-
-const statusToBgClass = {
-  Done: "bg-success text-white",
-  CANCEL: "bg-danger text-white",
-  default: "bg-light text-dark",
-};
-
-const backupMtrTypeList = [
-  { id: 0, value: "Poly", label: "Poly" },
-  { id: 1, value: "CT", label: "CT" },
-  { id: 2, value: "Single to Poly", label: "Single to Poly" },
-  { id: 3, value: "Poly to Single", label: "Poly to Single" },
-  { id: 4, value: "Poly to CT", label: "Poly to CT" },
-  { id: 5, value: "CT to Poly", label: "CT to Poly" },
-  { id: 6, value: "CT 100/5", label: "CT 100/5" },
-  { id: 7, value: "CT 200/5", label: "CT 200/5" },
-  { id: 8, value: "CT 400/5", label: "CT 400/5" },
-];
-
-const backupWorkTypeList = [
-  { id: 0, value: "NC", label: "NC" },
-  { id: 1, value: "Mass", label: "Mass" },
-  { id: 2, value: "Load Enh.", label: "Load Enh." },
-  { id: 3, value: "Faulty", label: "Faulty" },
-  { id: 4, value: "Box Change", label: "Box Change" },
-  { id: 5, value: "Burnt", label: "Burnt" },
-  { id: 6, value: "Cable change", label: "Cable change" },
-  { id: 7, value: "Load Viol.", label: "Load Viol." },
-  { id: 8, value: "LTT Moveout", label: "LTT Moveout" },
-  { id: 9, value: "Meter Stop", label: "Meter Stop" },
-  { id: 10, value: "Moveout", label: "Moveout" },
-  { id: 11, value: "Net Meter", label: "Net Meter" },
-  { id: 12, value: "Check Meter", label: "Check Meter" },
-  { id: 13, value: "Resealing", label: "Resealing" },
-  { id: 14, value: "Shifting", label: "Shifting" },
-  { id: 14, value: "TD MRO", label: "TD MRO" },
-  { id: 15, value: "Pre/Post", label: "Pre/Post" },
-  { id: 14, value: "RO", label: "RO" },
-];
+import { backupMtrTypeList, backupWorkTypeList } from "./constants";
+import Collapsable from "./components/Collapsable";
+import Form from "./components/Form";
 
 const STORAGE_KEY = "history_page";
 
@@ -52,13 +13,20 @@ const HistoryPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [historyList, setHistoryList] = useState([]);
   const [caseReportList, setCaseReportList] = useState([]);
-  const [reportText, setReportText] = useState("");
-  const [reportLastLine, setReportLastLine] = useState("");
-  const [holdCount, setHoldCount] = useState(0);
   const [settingsUrl, setSettingsUrl] = useState("");
   const [mtrTypeList, setMtrTypeList] = useState(backupMtrTypeList);
   const [workTypeList, setWorkTypeList] = useState(backupWorkTypeList);
   const [hasLoaded, setHasLoaded] = useState(false);
+
+  const [reportData, setReportData] = useState({
+    lastLine: "",
+    holdCount: 0,
+    finalText: "",
+  });
+
+  const handleReportDataChange = (key, value) => {
+    setReportData((prev) => ({ ...prev, [key]: value }));
+  };
 
   const url = "https://api.tatapower-ddl.com/mmg2/HistoryNotiMMG";
   const urlProtocol =
@@ -117,17 +85,14 @@ const HistoryPage = () => {
       reportParts.push("Cancel", ...cancelItems, "");
     }
 
-    if (holdCount > 0) reportParts.push(`${holdCount} Hold`, "");
+    if (reportData.holdCount > 0)
+      reportParts.push(`${reportData.holdCount} Hold`, "");
 
-    reportParts.push(reportLastLine);
+    reportParts.push(reportData.lastLine);
 
     const report = reportParts.join("\n");
 
-    setReportText(report);
-  };
-
-  const copyReport = () => {
-    copyToClipboard(reportText);
+    handleReportDataChange("finalText", report);
   };
 
   useEffect(() => {
@@ -195,148 +160,29 @@ const HistoryPage = () => {
 
   return (
     <div className="container mt-4">
-      <form>
-        <div className="input-group mb-3">
-          <span className="input-group-text" id="labelUserID">
-            User Id
-          </span>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="User Id"
-            aria-label="User Id"
-            aria-describedby="labelUserID"
-            id="userId"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="btn btn-primary"
-          onClick={(e) => {
-            e.preventDefault();
-            getHistoryList();
-          }}
-        >
-          Submit
-        </button>
-        <br />
-        <button
-          type="submit"
-          className="btn btn-sm btn-info my-2"
-          onClick={(e) => {
-            e.preventDefault();
-            prepareReport();
-          }}
-        >
-          Prepare Report
-        </button>
-      </form>
+      <Form
+        userId={userId}
+        handleUserIdChange={setUserId}
+        handleSubmit={getHistoryList}
+        prepareReport={prepareReport}
+      />
 
       {isLoading && (
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       )}
-      {reportText && (
-        <div className="row">
-          <h4>Report</h4>
 
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="settings">
-              Settings Source Url
-            </span>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Settings Source Url"
-              aria-label="Settings Source Url"
-              aria-describedby="settings"
-              id="settings"
-              value={settingsUrl}
-              onChange={(e) => setSettingsUrl(e.target.value)}
-            />
-            <button
-              className="btn btn-outline-secondary"
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                getDataFromUrl(settingsUrl);
-              }}
-            >
-              Load Settings
-            </button>
-          </div>
-
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="lastLineLabel">
-              Last line
-            </span>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Last line"
-              aria-label="Last line"
-              aria-describedby="lastLineLabel"
-              id="lastLine"
-              value={reportLastLine}
-              onChange={(e) => setReportLastLine(e.target.value)}
-            />
-          </div>
-
-          <div className="input-group mb-3">
-            <label className="input-group-text" htmlFor="holdCountSelect">
-              Hold Count
-            </label>
-            <select
-              className="form-select"
-              id="holdCountSelect"
-              value={holdCount}
-              onChange={(e) => setHoldCount(Number(e.target.value))}
-            >
-              {Array.from({ length: 21 }, (_, i) => (
-                <option key={i} value={i}>
-                  {i}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="col-auto align-self-start">
-            <button
-              type="submit"
-              className="btn btn-sm btn-primary"
-              onClick={(e) => {
-                e.preventDefault();
-                copyReport();
-              }}
-            >
-              Copy Report
-            </button>
-            <button
-              type="submit"
-              className="btn mx-2 btn-sm btn-info"
-              onClick={(e) => {
-                e.preventDefault();
-                setReportText("");
-              }}
-            >
-              <i className="bi bi-arrows-collapse"></i>
-            </button>
-          </div>
-
-          <textarea
-            className="form-control"
-            name=""
-            id=""
-            rows="15"
-            value={reportText}
-            readOnly
-          />
-        </div>
+      {reportData.finalText && (
+        <Collapsable
+          settingsUrl={settingsUrl}
+          setSettingsUrl={setSettingsUrl}
+          getDataFromUrl={getDataFromUrl}
+          reportData={reportData}
+          handleReportDataChange={handleReportDataChange}
+        />
       )}
+
       <h3>History - NN count : {historyList.length}</h3>
 
       <div className="row">

@@ -1,10 +1,5 @@
 import { copyToClipboard } from "../../../components/services/utilsService";
-
-const statusToBgClass = {
-  Done: "bg-success text-white",
-  CANCEL: "bg-danger text-white",
-  default: "bg-light text-dark",
-};
+import { statusToBgClass } from "../constants";
 
 const urlProtocol =
   "https://api.tatapower-ddl.com/mmgportal/main_forms/fromGenerateProtocol_mob.aspx?son=";
