@@ -4,6 +4,7 @@ import {
   copyToClipboard,
   ensureJsonStrict,
 } from "../../components/services/utilsService";
+import Card from "./components/Card";
 
 const statusToBgClass = {
   Done: "bg-success text-white",
@@ -178,6 +179,20 @@ const HistoryPage = () => {
     setIsLoading(false);
   };
 
+  const handleSelectMtrType = (mtrType, idx) => {
+    const newCaseReportList = [...caseReportList];
+    newCaseReportList[idx].mtrType = mtrType;
+    setCaseReportList(newCaseReportList);
+    console.log("Selected Mtr Type:", mtrType, idx);
+  };
+
+  const handleSelectWorkType = (workType, idx) => {
+    const newCaseReportList = [...caseReportList];
+    newCaseReportList[idx].workType = workType;
+    setCaseReportList(newCaseReportList);
+    console.log("Selected Work Type:", workType, idx);
+  };
+
   return (
     <div className="container mt-4">
       <form>
@@ -329,101 +344,16 @@ const HistoryPage = () => {
           <li className="list-group-item">Nothing to show</li>
         )}
         {historyList.map((item, idx) => (
-          <div className="col-md-4 mb-4" key={item.NOTIFICATION_NO}>
-            <div
-              className={`card h-100 ${
-                statusToBgClass[item.Hold_Cancel_type] ||
-                statusToBgClass.default
-              }`}
-            >
-              <div className="card-body">
-                <div className="d-flex justify-content-between align-items-center">
-                  <h5 className="card-title">{item.NOTIFICATION_NO}</h5>
-                  <a
-                    className="rounded bg-warning p-2"
-                    href={urlProtocol + item.SRV_ORD_NO}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {item.SRV_ORD_NO}
-                  </a>
-                </div>
-
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="card-text">{item.Hold_Cancel_type}</span>
-                  <span className="card-text">{item.insertedon}</span>
-                </div>
-
-                <div className="input-group mb-3">
-                  <label className="input-group-text" htmlFor="mtrType">
-                    Mtr Type
-                  </label>
-                  <select
-                    className="form-select"
-                    id="mtrType"
-                    value={caseReportList[idx].mtrType}
-                    onChange={(e) => {
-                      const newCaseReportList = [...caseReportList];
-                      newCaseReportList[idx].mtrType = e.target.value;
-                      setCaseReportList(newCaseReportList);
-                      console.log("Selected Mtr Type:", e.target.value, idx);
-                    }}
-                  >
-                    <option value="">-- Select Mtr Type --</option>
-                    {mtrTypeList.map((item, idx) => (
-                      <option key={idx} value={item.value}>
-                        {item.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="input-group mb-3">
-                  <label className="input-group-text" htmlFor="workType">
-                    Work Type
-                  </label>
-                  <select
-                    className="form-select"
-                    id="workType"
-                    value={caseReportList[idx].workType}
-                    onChange={(e) => {
-                      const newCaseReportList = [...caseReportList];
-                      newCaseReportList[idx].workType = e.target.value;
-                      setCaseReportList(newCaseReportList);
-                    }}
-                  >
-                    <option value="">-- Select Work Type --</option>
-                    {workTypeList.map((item, idx) => (
-                      <option key={idx} value={item.value}>
-                        {item.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="card-footer">
-                <button
-                  className="btn btn-primary btn-sm"
-                  onClick={(e) => {
-                    window.open(
-                      "/notepad?nn=" + item.NOTIFICATION_NO,
-                      "_blank"
-                    );
-                  }}
-                >
-                  Notepad
-                </button>
-                <button
-                  className="btn btn-info btn-sm ms-2 rounded"
-                  onClick={(e) => {
-                    copyToClipboard(item.NOTIFICATION_NO.slice(2));
-                  }}
-                >
-                  Copy NN
-                </button>
-              </div>
-            </div>
-          </div>
+          <Card
+            key={item.NOTIFICATION_NO}
+            index={idx}
+            item={item}
+            mtrTypeList={mtrTypeList}
+            workTypeList={workTypeList}
+            caseReportList={caseReportList}
+            handleSelectMtrType={handleSelectMtrType}
+            handleSelectWorkType={handleSelectWorkType}
+          />
         ))}
       </div>
     </div>
