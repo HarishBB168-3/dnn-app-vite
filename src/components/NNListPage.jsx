@@ -46,18 +46,35 @@ const NNListPage = () => {
   };
 
   function sortByPoleSuffix(arr, order = "asc") {
-    return arr.sort((a, b) => {
-      const cleanPole = (pole) => {
-        if (!pole || typeof pole !== "string") return "";
-        return pole.startsWith("HT") ? pole.slice(2) : pole;
-      };
+    const normalizePoleForSort = (pole) => {
+      if (!pole || typeof pole !== "string") return "";
 
-      const valA = cleanPole(a.POLE).replace("-", "");
-      const valB = cleanPole(b.POLE).replace("-", "");
+      const hasHT = pole.startsWith("HT");
+      const withoutHT = hasHT ? pole.slice(2) : pole;
+
+      const [main, suffix] = withoutHT.split("-");
+      if (!suffix) return withoutHT;
+
+      const paddedSuffix = suffix
+        .split("/")
+        .map((seg) => {
+          const num = seg.match(/\d+/); // extract digits
+          return num ? num[0].padStart(4, "0") : null;
+        })
+        .filter(Boolean) // remove non-numeric segments
+        .join("/");
+
+      const normalized = `${main}-${paddedSuffix}`;
+      return normalized;
+    };
+
+    return arr.sort((a, b) => {
+      const valA = normalizePoleForSort(a.POLE);
+      const valB = normalizePoleForSort(b.POLE);
 
       return order === "asc"
-        ? valA.localeCompare(valB)
-        : valB.localeCompare(valA);
+        ? valA.localeCompare(valB, undefined, { numeric: true })
+        : valB.localeCompare(valA, undefined, { numeric: true });
     });
   }
 
