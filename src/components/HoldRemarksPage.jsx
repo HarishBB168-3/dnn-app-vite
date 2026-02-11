@@ -8,6 +8,7 @@ const HoldRemarksPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [holdRemark, setHoldRemark] = useState("");
   const [idToUse, setIdToUse] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
 
@@ -36,9 +37,10 @@ const HoldRemarksPage = () => {
   const holdNN = async (nn, text, id) => {
     setIsLoading(true);
     try {
+      const [year, month, day] = selectedDate.split("-");
       const result = await http.post(holdUrl, {
         HOLD_CANCEL_REMARK: text,
-        HOLD_CANCEL_DATE: "",
+        HOLD_CANCEL_DATE: `${day}-${month}-${year}`,
         NOTIFICATION_NO: nn,
         ENG_ID: id,
       });
@@ -136,7 +138,7 @@ const HoldRemarksPage = () => {
             <div className="d-flex align-items-center gap-2">
               <button
                 className="btn btn-primary flex-shrink-0"
-                disabled={isLoading || isHoldBtnDisabled}
+                disabled={isLoading || isHoldBtnDisabled || !selectedDate}
                 onClick={(e) => {
                   e.preventDefault();
                   holdNN(notification, holdRemark, idToUse);
@@ -151,6 +153,16 @@ const HoldRemarksPage = () => {
                 id="userIdToUse"
                 value={idToUse}
                 onChange={(e) => setIdToUse(e.target.value)}
+              />
+              <input
+                type="date"
+                className="form-control"
+                value={selectedDate}
+                onChange={(e) => {
+                  console.log("Selected date old : ", selectedDate);
+                  setSelectedDate(e.target.value);
+                  console.log("Target value : ", e.target.value);
+                }}
               />
             </div>
           </div>
