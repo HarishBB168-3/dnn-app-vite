@@ -17,7 +17,7 @@ import CancelHoldReasonListPage from "./components/CancelHoldReasonListPage";
 import RemarksBuilderPage from "./components/RemarksBuilderPage";
 import HoldRemarksPage from "./components/HoldRemarksPage";
 import RenamePdfPage from "./components/RenamePdfPage";
-import ClipboardPage from "./components/ClipboardPage";
+import ClipboardPage from "./pages/ClipboardPage";
 
 function App() {
   return (

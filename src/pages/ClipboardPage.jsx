@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import Accordion from "./common/Accordion";
-import AccordionItem from "./common/AccordionItem";
-import http from "./services/httpService";
-import { copyToClipboard, ensureJsonStrict } from "./services/utilsService";
-import CollapseButton from "./common/CollapseButton";
-import Collapse from "./common/Collapse";
+import Accordion from "../components/common/Accordion";
+import AccordionItem from "../components/common/AccordionItem";
+import http from "../components/services/httpService";
+import {
+  copyToClipboard,
+  ensureJsonStrict,
+} from "../components/services/utilsService";
+import CollapseButton from "../components/common/CollapseButton";
+import Collapse from "../components/common/Collapse";
 
 const STORAGE_KEY = "clipboard_page";
 
