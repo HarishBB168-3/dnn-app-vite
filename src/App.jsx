@@ -14,7 +14,7 @@ import CableLoadTablePage from "./components/CableLoadTablePage";
 import SadhnaChartPage from "./components/SadhnaChartPage";
 import MeterSealsPage from "./components/MeterSealsPage";
 import CancelHoldReasonListPage from "./components/CancelHoldReasonListPage";
-import RemarksBuilderPage from "./components/RemarksBuilderPage";
+import RemarksBuilderPage from "./pages/RemarksBuilderPage";
 import HoldRemarksPage from "./components/HoldRemarksPage";
 import RenamePdfPage from "./components/RenamePdfPage";
 import ClipboardPage from "./pages/ClipboardPage";

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-import http from "./services/httpService";
-import { copyToClipboard, ensureJsonStrict } from "./services/utilsService";
+import http from "../components/services/httpService";
+import {
+  copyToClipboard,
+  ensureJsonStrict,
+} from "../components/services/utilsService";
 
 const STORAGE_KEY = "remarks_builder_state";
 
@@ -145,7 +148,7 @@ const RemarksBuilderPage = () => {
               {remarksList.map((remark) => (
                 <div
                   key={remark.id}
-                  className="list-group-item d-flex align-items-center border border-primary border-opacity-25"
+                  className="list-group-item d-flex align-items-center border border-primary border-opacity-25 p-0 px-1"
                 >
                   <div className="form-check w-100">
                     <input
