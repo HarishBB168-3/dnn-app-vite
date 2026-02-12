@@ -6,6 +6,8 @@ import { backupMtrTypeList, backupWorkTypeList } from "./constants";
 import useLocalStorage from "./hooks/useLocalStorage";
 import useHistoryData from "./hooks/useHistoryData";
 import { buildReport } from "./utils/buildReport";
+import Collapse from "../../components/common/Collapse";
+import CollapseButton from "../../components/common/CollapseButton";
 
 const STORAGE_KEY = "history_page";
 
@@ -85,24 +87,40 @@ const HistoryPage = () => {
         handleUserIdChange={setUserId}
         handleSubmit={() => getHistoryList(userId)}
         prepareReport={handlePrepareReport}
-      />
+      >
+        <CollapseButton
+          className="btn btn-sm btn-success my-2"
+          targetCollapseId="reportCollapse"
+        >
+          Report
+        </CollapseButton>
+        <Collapse id="reportCollapse">
+          <button
+            type="submit"
+            className="btn btn-sm btn-info my-2"
+            onClick={(e) => {
+              e.preventDefault();
+              handlePrepareReport();
+            }}
+          >
+            Prepare Report
+          </button>
+          <Collapsable
+            settingsUrl={settings.settingsUrl}
+            setSettingsUrl={(url) =>
+              setSettings((prev) => ({ ...prev, settingsUrl: url }))
+            }
+            getDataFromUrl={getDataFromUrl}
+            reportData={reportData}
+            handleReportDataChange={handleReportDataChange}
+          />
+        </Collapse>
+      </Form>
 
       {loading && (
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
-      )}
-
-      {reportData.finalText && (
-        <Collapsable
-          settingsUrl={settings.settingsUrl}
-          setSettingsUrl={(url) =>
-            setSettings((prev) => ({ ...prev, settingsUrl: url }))
-          }
-          getDataFromUrl={getDataFromUrl}
-          reportData={reportData}
-          handleReportDataChange={handleReportDataChange}
-        />
       )}
 
       <h3>History - NN count : {historyList.length}</h3>
