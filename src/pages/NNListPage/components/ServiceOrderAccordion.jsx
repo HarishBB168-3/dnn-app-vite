@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getPoleGPSLink } from "./services/poleService";
+import { getPoleGPSLink } from "../../../components/services/poleService";
 import { useNavigate } from "react-router-dom";
 
 function ServiceOrderAccordion({ data, index, showAddressInAccrd }) {

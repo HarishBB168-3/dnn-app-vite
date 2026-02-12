@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import http from "../../components/services/httpService";
 import {
   downloadCSV,
   getUniqueValuesNCountByKey,
 } from "../../components/services/utilsService";
-import ServiceOrderAccordion from "../../components/ServiceOrderAccordion";
 import { filterList, sortByDate, sortByPoleSuffix } from "./utils";
 import QuerySection from "./components/QuerySection";
 import FilterSection from "./components/FilterSection";
+import ServiceOrderAccordion from "./components/ServiceOrderAccordion";
+import { fetchNNList } from "./services/nnListPageService";
 
 const NNListPage = () => {
   const [userId, setUserId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [nnList, setNnList] = useState([]);
-  const [filteredList, setFilteredList] = useState([]);
   const [filterType, setFilterType] = useState("");
   const [uniqueNNTypeList, setNNTypeList] = useState([]);
   const [uniqueZoneList, setZoneList] = useState([]);
@@ -22,26 +22,17 @@ const NNListPage = () => {
   const [showAddressInAccrd, setShowAddressInAccrd] = useState(false);
 
   useEffect(() => {
-    const data = [...nnList];
-    const result = filterList(data, "NOTIF_TYPE_DESC", filterType);
-    console.log("Filter result : ", result);
-    console.log("Filter type : ", filterType);
-    setFilteredList(result);
     setNNTypeList(getUniqueValuesNCountByKey(nnList, "NOTIF_TYPE_DESC"));
     setZoneList(getUniqueValuesNCountByKey(nnList, "ZONECODE"));
-  }, [filterType]);
+  }, []);
 
-  const url = "https://api.tatapower-ddl.com/mmg2/GetCustomerDetailsMMG";
-
-  const payload = {
-    userId: "",
-    insertedon: 0,
-    APK_VERSION: "CMM_2.3.6",
-  };
+  const mFilteredList = useMemo(() => {
+    const result = filterList(nnList, "NOTIF_TYPE_DESC", filterType);
+    return result;
+  }, [nnList, filterType]);
 
   const clearData = () => {
     setNnList([]);
-    setFilteredList([]);
     setFilterType("");
     setNNTypeList([]);
     setZoneList([]);
@@ -51,9 +42,7 @@ const NNListPage = () => {
     clearData();
     setIsLoading(true);
     try {
-      const result = await http.post(url, { ...payload, userId: userId });
-      console.log("Status : ", result.status);
-      const data = JSON.parse(result.data);
+      const data = await fetchNNList(userId);
       console.log(data);
       const sortedData = sortByPoleSuffix(data);
       setNnList(sortedData);
@@ -63,7 +52,7 @@ const NNListPage = () => {
     setIsLoading(false);
   };
 
-  let listToUse = filteredList.length === 0 ? nnList : filteredList;
+  let listToUse = mFilteredList.length === 0 ? nnList : mFilteredList;
 
   if (sortByIssueDate) {
     listToUse = sortByDate(listToUse, "SERVICE_ORD_DATE", "desc");
