@@ -3,6 +3,8 @@ import Accordion from "./common/Accordion";
 import AccordionItem from "./common/AccordionItem";
 import http from "./services/httpService";
 import { copyToClipboard, ensureJsonStrict } from "./services/utilsService";
+import CollapseButton from "./common/CollapseButton";
+import Collapse from "./common/Collapse";
 
 const STORAGE_KEY = "clipboard_page";
 
@@ -98,20 +100,17 @@ const ClipboardPage = () => {
               <span className="visually-hidden">Loading...</span>
             </div>
           )}
-          <button
+          <CollapseButton
             className="btn btn-sm btn-primary"
-            data-bs-toggle="collapse"
-            data-bs-target="#exportCollapse"
-            aria-expanded="false"
-            aria-controls="exportCollapse"
+            targetCollapseId="exportCollapse"
           >
             <i className="bi bi-menu-button"></i>
-          </button>
+          </CollapseButton>
         </div>
       </div>
 
       {/* Export Collapse Panel */}
-      <div className="collapse mb-3" id="exportCollapse">
+      <Collapse id={"exportCollapse"}>
         <div className="card card-body border">
           <div className="row g-2 align-items-end">
             <div className="input-group mb-3">
@@ -213,7 +212,7 @@ const ClipboardPage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Collapse>
 
       <Accordion id="clipboardAccordion">
         {clipboard.map((item) => (
