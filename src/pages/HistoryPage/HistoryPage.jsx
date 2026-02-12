@@ -80,6 +80,23 @@ const HistoryPage = () => {
     [setCaseReportList]
   );
 
+  const handleSelectCableLength = useCallback(
+    (cableLength, idx) => {
+      setCaseReportList((prev) =>
+        prev.map((item, i) => (i === idx ? { ...item, cableLength } : item))
+      );
+    },
+    [setCaseReportList]
+  );
+  const handleSelectBusbarInst = useCallback(
+    (busbarInst, idx) => {
+      setCaseReportList((prev) =>
+        prev.map((item, i) => (i === idx ? { ...item, busbarInst } : item))
+      );
+    },
+    [setCaseReportList]
+  );
+
   return (
     <div className="container mt-4">
       <Form
@@ -139,6 +156,8 @@ const HistoryPage = () => {
             caseReportList={caseReportList}
             handleSelectMtrType={handleSelectMtrType}
             handleSelectWorkType={handleSelectWorkType}
+            handleSelectCableLength={handleSelectCableLength}
+            handleSelectBusbarInst={handleSelectBusbarInst}
           />
         ))}
       </div>

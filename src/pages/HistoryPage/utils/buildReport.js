@@ -4,7 +4,12 @@ export const buildReport = ({ caseReportList, holdCount, lastLine }) => {
       (item) =>
         item.Hold_Cancel_type === "Done" && item.mtrType && item.workType
     )
-    .map((item) => `${item.NOTIFICATION_NO} ${item.mtrType} ${item.workType}`);
+    .map((item) => {
+      let iText = `${item.NOTIFICATION_NO} ${item.mtrType} ${item.workType}`;
+      if (item.cableLength > 0) iText += ` with ${item.cableLength}m cbl`;
+      if (item.busbarInst) iText += " and busbar";
+      return iText;
+    });
 
   const cancelItems = caseReportList
     .filter(

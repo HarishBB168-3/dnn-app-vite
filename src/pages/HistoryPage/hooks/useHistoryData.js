@@ -25,6 +25,8 @@ const useHistoryData = () => {
           mtrType: "",
           workType: "",
           SRV_ORD_NO: obj.SRV_ORD_NO,
+          cableLength: 0,
+          busbarInst: false,
         }))
       );
     } catch (err) {

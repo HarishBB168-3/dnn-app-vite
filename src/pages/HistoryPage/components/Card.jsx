@@ -12,8 +12,9 @@ const Card = ({
   caseReportList,
   handleSelectMtrType,
   handleSelectWorkType,
+  handleSelectCableLength,
+  handleSelectBusbarInst,
 }) => {
-  //   console.log(item, idx);
   return (
     <div className="col-md-4 mb-4">
       <div
@@ -75,6 +76,31 @@ const Card = ({
                 </option>
               ))}
             </select>
+          </div>
+
+          <div className="input-group mb-3">
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Cable length"
+              aria-label="Username"
+              value={item.cableLength}
+              onChange={(e) => handleSelectCableLength(e.target.value, idx)}
+            />
+          </div>
+
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value=""
+              id={`${idx}_busbarInst`}
+              checkked={item.busbarInst}
+              onChange={(e) => handleSelectBusbarInst(e.target.checked, idx)}
+            />
+            <label className="form-check-label" htmlFor={`${idx}_busbarInst`}>
+              Busbar
+            </label>
           </div>
         </div>
         <div className="card-footer">
