@@ -1,14 +1,8 @@
 const FilterSection = ({
-  showExtraData,
-  setShowExtraData,
-  sortByIssueDate,
-  setSortByIssueDate,
-  showAddressInAccrd,
-  setShowAddressInAccrd,
   uniqueNNTypeList,
   uniqueZoneList,
-  filterType,
-  setFilterType,
+  filterOptions,
+  setFilterOptions,
 }) => {
   return (
     <>
@@ -18,8 +12,13 @@ const FilterSection = ({
           type="checkbox"
           role="switch"
           id="showExtraData"
-          checked={showExtraData}
-          onChange={(e) => setShowExtraData(e.target.checked)}
+          checked={filterOptions.showExtraData}
+          onChange={(e) =>
+            setFilterOptions((prev) => ({
+              ...prev,
+              showExtraData: e.target.checked,
+            }))
+          }
         />
         <label className="form-check-label" htmlFor="showExtraData">
           Show Extra Data
@@ -32,29 +31,20 @@ const FilterSection = ({
           type="checkbox"
           role="switch"
           id="sortIssueDate"
-          checked={sortByIssueDate}
-          onChange={(e) => setSortByIssueDate(e.target.checked)}
+          checked={filterOptions.sortByIssueDate}
+          onChange={(e) =>
+            setFilterOptions((prev) => ({
+              ...prev,
+              sortByIssueDate: e.target.checked,
+            }))
+          }
         />
         <label className="form-check-label" htmlFor="sortIssueDate">
           Sort by Issue Date
         </label>
       </div>
 
-      <div className="form-check form-switch">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          role="switch"
-          id="showAddress"
-          checked={showAddressInAccrd}
-          onChange={(e) => setShowAddressInAccrd(e.target.checked)}
-        />
-        <label className="form-check-label" htmlFor="showAddress">
-          Show Address
-        </label>
-      </div>
-
-      {showExtraData && (
+      {filterOptions.showExtraData && (
         <div className="d-flex">
           <ul className="list-group">
             {[...uniqueNNTypeList].map(([nnType, count]) => (
@@ -81,8 +71,13 @@ const FilterSection = ({
               type="radio"
               name="filterType"
               id="all"
-              onChange={() => setFilterType("")}
-              checked={"" === filterType}
+              onChange={(e) =>
+                setFilterOptions((prev) => ({
+                  ...prev,
+                  filterType: "",
+                }))
+              }
+              checked={"" === filterOptions.filterType}
             />
             All
           </label>
@@ -95,8 +90,13 @@ const FilterSection = ({
                 type="radio"
                 name="filterType"
                 id={nnType}
-                onChange={() => setFilterType(nnType)}
-                checked={nnType === filterType}
+                onChange={(e) =>
+                  setFilterOptions((prev) => ({
+                    ...prev,
+                    filterType: nnType,
+                  }))
+                }
+                checked={nnType === filterOptions.filterType}
               />
               {nnType}
             </label>
