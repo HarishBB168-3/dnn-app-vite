@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import "./App.css";
 import NotepadPage from "./components/NotepadPage";
 import Home from "./components/Home";
-import NNListPage from "./components/NNListPage";
-import "./App.css";
+import NNListPage from "./pages/NNListPage";
 import CADetailsPage from "./components/CADetailsPage";
 import SealDetailsPage from "./components/SealDetailsPage";
 import HistoryPage from "./pages/HistoryPage";

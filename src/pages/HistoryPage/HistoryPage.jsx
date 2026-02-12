@@ -3,7 +3,7 @@ import Card from "./components/Card";
 import Collapsable from "./components/Collapsable";
 import Form from "./components/Form";
 import { backupMtrTypeList, backupWorkTypeList } from "./constants";
-import useLocalStorage from "./hooks/useLocalStorage";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import useHistoryData from "./hooks/useHistoryData";
 import { buildReport } from "./utils/buildReport";
 import Collapse from "../../components/common/Collapse";
