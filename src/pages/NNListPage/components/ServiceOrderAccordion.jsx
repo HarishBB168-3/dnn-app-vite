@@ -247,7 +247,7 @@ function ServiceOrderAccordion({ data, index, showAddressInAccrd }) {
                     <br />
                     <button
                       type="button"
-                      className="btn btn-sm btn-outline-secondary ms-2"
+                      className="btn btn-sm btn-outline-secondary mb-2"
                       onClick={(e) => {
                         window.open(
                           "/poleAdvSearch?poleNo=" + data.POLE,
@@ -262,7 +262,7 @@ function ServiceOrderAccordion({ data, index, showAddressInAccrd }) {
                 <br />
                 <button
                   type="button"
-                  className="btn btn-sm btn-secondary "
+                  className="btn btn-sm btn-secondary mb-2"
                   onClick={(e) => {
                     window.open(
                       "/notepad?nn=" + data.NOTIFICATION_NO,
@@ -275,7 +275,7 @@ function ServiceOrderAccordion({ data, index, showAddressInAccrd }) {
                 <br />
                 <button
                   type="button"
-                  className="btn btn-sm btn-warning "
+                  className="btn btn-sm btn-warning mb-2"
                   onClick={(e) => {
                     window.open(
                       "/meterSeals?mNo=" + data.OLD_METER_NO,
@@ -284,6 +284,19 @@ function ServiceOrderAccordion({ data, index, showAddressInAccrd }) {
                   }}
                 >
                   Meter Seals - {data.OLD_METER_NO || "N/A"}
+                </button>
+                <br />
+                <button
+                  type="button"
+                  className="btn btn-sm btn-secondary mb-2"
+                  onClick={(e) => {
+                    window.open(
+                      "/holdRemarks?nn=" + data.NOTIFICATION_NO,
+                      "_blank"
+                    );
+                  }}
+                >
+                  Hold Remark
                 </button>
               </div>
               {Object.entries(data).map(([key, value]) => (
