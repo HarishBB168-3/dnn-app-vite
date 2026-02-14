@@ -1,26 +1,11 @@
 import React, { useState } from "react";
-import { getPoleGPSLink } from "../../../components/services/poleService";
-import { useNavigate } from "react-router-dom";
 import NNListItemActions from "./NNListItemActions";
+import AccordionHeader from "./AccordionHeader";
 
 function ServiceOrderAccordion({ data, index, showAddressInAccrd }) {
   const accordionId = `accordion-${index}`;
   const headingId = `heading-${index}`;
   const collapseId = `collapse-${index}`;
-
-  const [poleLink, setPoleLink] = useState("");
-  const navigate = useNavigate();
-
-  const copyToClipboard = (text) => {
-    if (navigator.clipboard && text) {
-      navigator.clipboard.writeText(text).then(() => {
-        alert("Copied to clipboard: " + text);
-      });
-    } else {
-      alert("Unable to copy : " + text);
-      console.log(navigator);
-    }
-  };
 
   const isPACase = () => {
     if (
@@ -65,116 +50,11 @@ function ServiceOrderAccordion({ data, index, showAddressInAccrd }) {
                 : "#ffc8dd",
             }}
           >
-            <div className="container-fluid">
-              <strong>{index + 1}</strong>
-              <div className="row">
-                <div className="col-md-4">
-                  <strong>Type:</strong> {data.NOTIF_TYPE_DESC || "N/A"}
-                  <br />
-                  <strong>Priority Type:</strong>{" "}
-                  {data.NOTIF_PRIORITY_DESC || "N/A"}
-                  <br />
-                  <strong>Name:</strong> {data.NAME || "N/A"}
-                  <br />
-                  <strong>Notif #:</strong> {data.NOTIFICATION_NO || "N/A"}
-                  <br />
-                </div>
-                <div className="col-md-4">
-                  <strong>Date:</strong> {data.NOTIFICATION_DATE || "N/A"}
-                  <br />
-                  <strong>Source:</strong> {data.SOURCE || "N/A"}
-                  <br />
-                  <strong>WS No:</strong> {data.WS_NO || "N/A"}
-                </div>
-                <div className="col-md-4">
-                  <strong>SRV Ord No:</strong> {data.SRV_ORD_NO || "N/A"}
-                  <br />
-                  <strong>Zone:</strong> {data.ZONECODE || "N/A"}
-                  <br />
-                  <strong>CA No:</strong> {data.CA_NO || "N/A"}
-                </div>
-              </div>
-
-              <div className="row mt-2">
-                <div className="col-md-4">
-                  <strong>Installation No:</strong>{" "}
-                  {data.INSTALLATION_NO || "N/A"}
-                  <br />
-                  <strong>Phone:</strong> {data.PHN_NO || "N/A"}
-                  <br />
-                  <strong>Pole:</strong> {data.POLE || "N/A"}
-                </div>
-                <div className="col-md-4">
-                  <strong>Sanctioned Load:</strong>{" "}
-                  {data.SANCTION_LOAD || "N/A"}
-                  <br />
-                  <strong>New Load:</strong> {data.NEW_LOAD_KW || "N/A"}
-                  <br />
-                  <strong>Rate Catg:</strong> {data.RATE_CATG || "N/A"}
-                </div>
-                <div className="col-md-4">
-                  <strong>Service Ord Date:</strong>{" "}
-                  {data.SERVICE_ORD_DATE || "N/A"}
-                  <br />
-                  <strong>Inserted On:</strong> {data.insertedon || "N/A"}
-                  <br />
-                  <strong>Old Meter No:</strong> {data.OLD_METER_NO || "N/A"}
-                  <br />
-                  <strong>Class:</strong> {data.OLD_MTR_CONST_CLASS || "N/A"}
-                  <br />
-                  <strong>New Meter No :</strong> {data.NEW_METER_NO || "N/A"}
-                  <br />
-                  <strong>New Class:</strong>{" "}
-                  {data.NEW_MTR_CONST_CLASS || "N/A"}
-                  <br />
-                  <strong>NEW CTPT RATIO:</strong>{" "}
-                  {data.NEW_CTPT_RATIO || "N/A"}
-                  <br />
-                  <strong>Connection Through :</strong>{" "}
-                  {data.CONNECTION_THROUGH || "N/A"}
-                  <br />
-                  <div
-                    className={
-                      data.ADVICE_OLD_METER
-                        ? `p-3 mb-2 bg-warning text-dark`
-                        : ""
-                    }
-                  >
-                    <strong>Advice for old meter :</strong>{" "}
-                    {data.ADVICE_OLD_METER || "N/A"}
-                  </div>
-                  <div
-                    className={
-                      data.APPOINTMNT_DATE
-                        ? `p-3 mb-2 bg-warning text-dark`
-                        : ""
-                    }
-                  >
-                    <strong>Appointment Date :</strong>{" "}
-                    {data.APPOINTMNT_DATE || "N/A"}
-                  </div>
-                  <strong>Van No:</strong> {data.VAN_NO || "N/A"}
-                  <br />
-                  {showAddressInAccrd && (
-                    <>
-                      <strong>Address:</strong> {data.ADDRESS || "N/A"}
-                      <br />{" "}
-                    </>
-                  )}
-                  <div
-                    style={{
-                      width: "1px",
-                      height: "1px",
-                      overflow: "hidden",
-                      fontSize: "1px",
-                    }}
-                  >
-                    <br />
-                    <strong>Address :</strong> {data.ADDRESS || "N/A"}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <AccordionHeader
+              data={data}
+              index={index}
+              showAddressInAccrd={showAddressInAccrd}
+            />
           </button>
         </h2>
 
