@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { getPoleGPSLink } from "../../../components/services/poleService";
 import { useNavigate } from "react-router-dom";
+import NNListItemActions from "./NNListItemActions";
 
 function ServiceOrderAccordion({ data, index, showAddressInAccrd }) {
   const accordionId = `accordion-${index}`;
@@ -185,120 +186,7 @@ function ServiceOrderAccordion({ data, index, showAddressInAccrd }) {
         >
           <div className="accordion-body">
             <div className="row">
-              <div className="cod-md-6 mb-2">
-                <a
-                  href={
-                    "https://api.tatapower-ddl.com/cmg2/main_forms/frmSVRGenerate.aspx?Name=" +
-                    data.NOTIFICATION_NO
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  CMG Link
-                </a>
-                <br />
-                <strong>Notif #:</strong> {data.NOTIFICATION_NO || "N/A"}
-                {data.NOTIFICATION_NO && (
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-outline-secondary ms-2"
-                    onClick={(e) => {
-                      copyToClipboard(data.NOTIFICATION_NO);
-                    }}
-                  >
-                    Copy
-                  </button>
-                )}
-                <br />
-                <strong>Pole:</strong> {data.POLE || "N/A"}
-                {data.POLE && (
-                  <>
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-outline-secondary ms-2"
-                      onClick={(e) => {
-                        copyToClipboard(data.POLE);
-                      }}
-                    >
-                      Copy
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-success ms-2"
-                      onClick={(e) => {
-                        const getPoleLink = async () => {
-                          const link = await getPoleGPSLink(data.POLE);
-                          console.log("Pole link : ", link);
-                          setPoleLink(link);
-                        };
-                        getPoleLink();
-                      }}
-                    >
-                      Get Link
-                    </button>
-                    <br />
-                    <a
-                      href={poleLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {poleLink}
-                    </a>
-                    <br />
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-outline-secondary mb-2"
-                      onClick={(e) => {
-                        window.open(
-                          "/poleAdvSearch?poleNo=" + data.POLE,
-                          "_blank"
-                        );
-                      }}
-                    >
-                      Treat Link
-                    </button>
-                  </>
-                )}
-                <br />
-                <button
-                  type="button"
-                  className="btn btn-sm btn-secondary mb-2"
-                  onClick={(e) => {
-                    window.open(
-                      "/notepad?nn=" + data.NOTIFICATION_NO,
-                      "_blank"
-                    );
-                  }}
-                >
-                  Notepad History
-                </button>
-                <br />
-                <button
-                  type="button"
-                  className="btn btn-sm btn-warning mb-2"
-                  onClick={(e) => {
-                    window.open(
-                      "/meterSeals?mNo=" + data.OLD_METER_NO,
-                      "_blank"
-                    );
-                  }}
-                >
-                  Meter Seals - {data.OLD_METER_NO || "N/A"}
-                </button>
-                <br />
-                <button
-                  type="button"
-                  className="btn btn-sm btn-secondary mb-2"
-                  onClick={(e) => {
-                    window.open(
-                      "/holdRemarks?nn=" + data.NOTIFICATION_NO,
-                      "_blank"
-                    );
-                  }}
-                >
-                  Hold Remark
-                </button>
-              </div>
+              <NNListItemActions data={data} />
               {Object.entries(data).map(([key, value]) => (
                 <div className="col-md-6 mb-2" key={key}>
                   <div className="border rounded p-2 bg-light">
