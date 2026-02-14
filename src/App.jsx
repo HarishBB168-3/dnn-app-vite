@@ -18,6 +18,7 @@ import RemarksBuilderPage from "./pages/RemarksBuilderPage";
 import HoldRemarksPage from "./components/HoldRemarksPage";
 import RenamePdfPage from "./components/RenamePdfPage";
 import ClipboardPage from "./pages/ClipboardPage";
+import SpreadSheetExplorerPage from "./pages/SpreadSheetExplorerPage";
 
 function App() {
   return (
@@ -52,6 +53,10 @@ function App() {
           <Route path="/holdRemarks" element={<HoldRemarksPage />} />
           <Route path="/renamePdf" element={<RenamePdfPage />} />
           <Route path="/clipboard" element={<ClipboardPage />} />
+          <Route
+            path="/spreadsheetExplore"
+            element={<SpreadSheetExplorerPage />}
+          />
           <Route path="/" element={<Home />} />
         </Routes>
       </div>

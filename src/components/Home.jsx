@@ -52,6 +52,9 @@ const Home = () => {
         <li className="list-group-item">
           <Link to="/clipboard">Clipboard</Link>
         </li>
+        <li className="list-group-item">
+          <Link to="/spreadsheetExplore">Spreadsheet Explore</Link>
+        </li>
       </ul>
     </div>
   );
