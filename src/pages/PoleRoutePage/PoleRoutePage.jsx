@@ -13,6 +13,19 @@ const PoleRoutePage = () => {
 
   const openInNewTabCallback = useCallback(openInNewTab);
 
+  const prepareGoogleLocUrl = (locations) => {
+    const locs = locations.map((point) => [point.lat, point.lng]);
+    const url = `${baseUrl}${locs.join("/")}`;
+    return url;
+  };
+
+  const prepareMyLocUrl = (locations) => {
+    const locs = locations.map((point) => [point.lat, point.lng]);
+    const labels = locations.map((point) => point.pole);
+    const url = `/map?locations=${locs.join("/")}&labels=${labels.join(":")}`;
+    return url;
+  };
+
   const createRouteLink = async () => {
     try {
       setLoading(true);
@@ -34,13 +47,17 @@ const PoleRoutePage = () => {
 
       // Fetch coordinates
       const locations = await Promise.all(
-        poles.map((pole) => getPoleLatLong(pole))
+        poles.map(async (pole) => {
+          const loc = await getPoleLatLong(pole);
+          if (loc !== "") return { lat: loc[0], lng: loc[1], pole: pole };
+          else return { lat: -1, lng: -1, pole: pole };
+        })
       );
 
       // Remove invalid results
       const noLocationPoles = [];
       const mValidLocations = locations.filter((location, idx) => {
-        if (location !== "") return true;
+        if (location.lat !== -1 || location.lng !== -1) return true;
         else {
           noLocationPoles.push(poles[idx]);
           return false;
@@ -54,8 +71,7 @@ const PoleRoutePage = () => {
         return;
       }
 
-      const url = `${baseUrl}${mValidLocations.join("/")}`;
-      setResult(url);
+      setResult(prepareGoogleLocUrl(mValidLocations));
     } catch (error) {
       console.error("Error creating route link:", error);
       setResult("");
@@ -115,12 +131,9 @@ const PoleRoutePage = () => {
         {validLocations.length > 0 && (
           <div>
             <button
-              colorClass="btn-dark"
               className="btn btn-sm btn-success"
               onClick={() =>
-                openInNewTabCallback(
-                  `/map?locations=${validLocations.join("/")}`
-                )
+                openInNewTabCallback(prepareMyLocUrl(validLocations))
               }
             >
               Custom Map

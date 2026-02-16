@@ -1,44 +1,69 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Tooltip,
+  useMap,
+} from "react-leaflet";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import L from "leaflet";
 
-const FitBounds = ({ locations }) => {
+const FitBounds = ({ points }) => {
   const map = useMap();
 
   useEffect(() => {
-    if (locations.length > 0) {
-      const bounds = L.latLngBounds(locations);
+    if (points.length > 0) {
+      const bounds = L.latLngBounds(points.map((p) => [p.lat, p.lng]));
       map.fitBounds(bounds);
     }
-  }, [locations, map]);
+  }, [points, map]);
 
   return null;
 };
 
 const MapPage = () => {
   const [searchParams] = useSearchParams();
-  const [locations, setLocations] = useState([]);
+  const [points, setPoints] = useState([]);
+  const [showPermanentLabels, setShowPermanentLabels] = useState(false);
 
   useEffect(() => {
     const locationParam = searchParams.get("locations");
+    const labelParam = searchParams.get("labels");
 
     if (!locationParam) return;
 
-    const parsedLocations = locationParam
-      .split("/")
-      .map((item) => {
-        const [lat, lng] = item.split(",").map(Number);
-        return [lat, lng];
-      })
-      .filter((coords) => !isNaN(coords[0]) && !isNaN(coords[1]));
+    const locationList = locationParam.split("/");
+    const labelList = labelParam ? labelParam.split(":") : [];
 
-    setLocations(parsedLocations);
+    const parsedPoints = locationList
+      .map((item, index) => {
+        const [lat, lng] = item.split(",").map(Number);
+        if (isNaN(lat) || isNaN(lng)) return null;
+        return {
+          lat,
+          lng,
+          label: labelList[index] || `Point ${index + 1}`,
+        };
+      })
+      .filter(Boolean);
+
+    setPoints(parsedPoints);
   }, [searchParams]);
 
   return (
     <div>
       <h3>Dynamic Map from URL</h3>
+      {/* Toggle Button */}
+      <button
+        onClick={() => setShowPermanentLabels((prev) => !prev)}
+        className="btn btn-sm btn-primary"
+      >
+        {showPermanentLabels
+          ? "Switch to Click Labels"
+          : "Show Permanent Labels"}
+      </button>
 
       <MapContainer
         center={[28.6139, 77.209]}
@@ -50,15 +75,23 @@ const MapPage = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <FitBounds locations={locations} />
+        <FitBounds points={points} />
 
-        {locations.map((position, index) => (
-          <Marker key={index} position={position}>
-            <Popup>
-              Point {index + 1} <br />
-              Lat: {position[0]} <br />
-              Lng: {position[1]}
-            </Popup>
+        {points.map((point, index) => (
+          <Marker key={index} position={[point.lat, point.lng]}>
+            {showPermanentLabels ? (
+              <Tooltip permanent direction="top" offset={[0, -10]}>
+                <strong>{point.label}</strong>
+              </Tooltip>
+            ) : (
+              <Popup>
+                <strong>{point.label}</strong>
+                <br />
+                Lat: {point.lat}
+                <br />
+                Lng: {point.lng}
+              </Popup>
+            )}
           </Marker>
         ))}
       </MapContainer>
