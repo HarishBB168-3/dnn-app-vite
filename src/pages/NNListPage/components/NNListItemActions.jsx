@@ -1,6 +1,9 @@
 import { useCallback, useMemo, useState } from "react";
 import { getPoleGPSLink } from "../../../components/services/poleService";
-import { copyToClipboard } from "../../../components/services/utilsService";
+import {
+  copyToClipboard,
+  openInNewTab,
+} from "../../../components/services/utilsService";
 
 const Button = ({ children, colorClass, ...props }) => {
   return (
@@ -25,10 +28,7 @@ const NNListItemActions = ({ data }) => {
     return `https://api.tatapower-ddl.com/cmg2/main_forms/frmSVRGenerate.aspx?Name=${NOTIFICATION_NO}`;
   }, [NOTIFICATION_NO]);
 
-  const openInNewTab = useCallback((url) => {
-    if (!url) return;
-    window.open(url, "_blank", "noopener,noreferrer");
-  }, []);
+  const openInNewTabCallback = useCallback(openInNewTab, []);
 
   const handleCopy = useCallback((value) => {
     if (!value) return;
@@ -84,7 +84,11 @@ const NNListItemActions = ({ data }) => {
           >
             {loadingPoleLink ? "Loading..." : "Get Link"}
           </Button>
-          <Button onClick={() => openInNewTab(`/poleAdvSearch?poleNo=${POLE}`)}>
+          <Button
+            onClick={() =>
+              openInNewTabCallback(`/poleAdvSearch?poleNo=${POLE}`)
+            }
+          >
             Treat Link
           </Button>
           {poleLink && (
@@ -100,14 +104,14 @@ const NNListItemActions = ({ data }) => {
       <br />
       <Button
         colorClass="btn-dark"
-        onClick={() => openInNewTab(`/notepad?nn=${NOTIFICATION_NO}`)}
+        onClick={() => openInNewTabCallback(`/notepad?nn=${NOTIFICATION_NO}`)}
       >
         Notepad History
       </Button>
       <br />
       <Button
         colorClass="btn-info"
-        onClick={() => openInNewTab(`/meterSeals?mNo=${OLD_METER_NO}`)}
+        onClick={() => openInNewTabCallback(`/meterSeals?mNo=${OLD_METER_NO}`)}
         disabled={!OLD_METER_NO}
       >
         Meter Seals - {OLD_METER_NO || "N/A"}
@@ -115,7 +119,9 @@ const NNListItemActions = ({ data }) => {
       <br />
       <Button
         colorClass="btn-danger"
-        onClick={() => openInNewTab(`/holdRemarks?nn=${NOTIFICATION_NO}`)}
+        onClick={() =>
+          openInNewTabCallback(`/holdRemarks?nn=${NOTIFICATION_NO}`)
+        }
         disabled={!NOTIFICATION_NO}
       >
         Hold Remark

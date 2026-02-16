@@ -65,3 +65,8 @@ export const ensureJsonStrict = (value) => {
 
   throw new Error("Value is not valid JSON");
 };
+
+export const openInNewTab = (url) => {
+  if (!url) return;
+  window.open(url, "_blank", "noopener,noreferrer");
+};

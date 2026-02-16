@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import http from "./services/httpService";
+import http from "../components/services/httpService";
 
 function NotepadPage() {
   const [notification, setNotification] = useState(0);

@@ -55,6 +55,9 @@ const Home = () => {
         <li className="list-group-item">
           <Link to="/spreadsheetExplore">Spreadsheet Explore</Link>
         </li>
+        <li className="list-group-item">
+          <Link to="/poleRoute">Pole Route Maker</Link>
+        </li>
       </ul>
     </div>
   );

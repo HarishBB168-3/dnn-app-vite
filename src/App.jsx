@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
-import NotepadPage from "./components/NotepadPage";
-import Home from "./components/Home";
+import NotepadPage from "./pages/NotepadPage";
+import Home from "./pages/Home";
 import NNListPage from "./pages/NNListPage";
 import CADetailsPage from "./components/CADetailsPage";
 import SealDetailsPage from "./components/SealDetailsPage";
@@ -19,6 +19,7 @@ import HoldRemarksPage from "./components/HoldRemarksPage";
 import RenamePdfPage from "./components/RenamePdfPage";
 import ClipboardPage from "./pages/ClipboardPage";
 import SpreadSheetExplorerPage from "./pages/SpreadSheetExplorerPage";
+import PoleRoutePage from "./pages/PoleRoutePage";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
             path="/spreadsheetExplore"
             element={<SpreadSheetExplorerPage />}
           />
+          <Route path="/poleRoute" element={<PoleRoutePage />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </div>
