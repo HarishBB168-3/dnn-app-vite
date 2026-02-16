@@ -20,6 +20,7 @@ import RenamePdfPage from "./components/RenamePdfPage";
 import ClipboardPage from "./pages/ClipboardPage";
 import SpreadSheetExplorerPage from "./pages/SpreadSheetExplorerPage";
 import PoleRoutePage from "./pages/PoleRoutePage";
+import MapPage from "./pages/MapPage/MapPage";
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
             element={<SpreadSheetExplorerPage />}
           />
           <Route path="/poleRoute" element={<PoleRoutePage />} />
+          <Route path="/map" element={<MapPage />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </div>

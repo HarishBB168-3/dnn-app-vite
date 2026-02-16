@@ -58,6 +58,9 @@ const Home = () => {
         <li className="list-group-item">
           <Link to="/poleRoute">Pole Route Maker</Link>
         </li>
+        <li className="list-group-item">
+          <Link to="/map">Map Page</Link>
+        </li>
       </ul>
     </div>
   );

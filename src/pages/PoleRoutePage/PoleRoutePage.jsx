@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import { getPoleLatLong } from "../components/services/poleService";
-import { openInNewTab } from "../components/services/utilsService";
+import { getPoleLatLong } from "../../components/services/poleService";
+import { openInNewTab } from "../../components/services/utilsService";
 
 const baseUrl = "https://www.google.com/maps/dir/";
 
@@ -9,6 +9,7 @@ const PoleRoutePage = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState("");
   const [poleWithNoLocations, setPoleWithNoLocations] = useState([]);
+  const [validLocations, setValidLocations] = useState([]);
 
   const openInNewTabCallback = useCallback(openInNewTab);
 
@@ -38,21 +39,22 @@ const PoleRoutePage = () => {
 
       // Remove invalid results
       const noLocationPoles = [];
-      const validLocations = locations.filter((location, idx) => {
+      const mValidLocations = locations.filter((location, idx) => {
         if (location !== "") return true;
         else {
           noLocationPoles.push(poles[idx]);
           return false;
         }
       });
+      setValidLocations(mValidLocations);
       setPoleWithNoLocations(noLocationPoles);
 
-      if (validLocations.length === 0) {
+      if (mValidLocations.length === 0) {
         setResult("");
         return;
       }
 
-      const url = `${baseUrl}${validLocations.join("/")}`;
+      const url = `${baseUrl}${mValidLocations.join("/")}`;
       setResult(url);
     } catch (error) {
       console.error("Error creating route link:", error);
@@ -98,7 +100,7 @@ const PoleRoutePage = () => {
         </button>
       </form>
 
-      <div className="container">
+      <div className="container d-flex flex-column">
         {!result && <span>No link</span>}
         {result && (
           <a
@@ -109,6 +111,21 @@ const PoleRoutePage = () => {
           >
             {result}
           </a>
+        )}
+        {validLocations.length > 0 && (
+          <div>
+            <button
+              colorClass="btn-dark"
+              className="btn btn-sm btn-success"
+              onClick={() =>
+                openInNewTabCallback(
+                  `/map?locations=${validLocations.join("/")}`
+                )
+              }
+            >
+              Custom Map
+            </button>
+          </div>
         )}
         {poleWithNoLocations.length > 0 && (
           <>
