@@ -10,6 +10,16 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import L from "leaflet";
 
+// Fix marker icon
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
 const FitBounds = ({ points }) => {
   const map = useMap();
 
