@@ -9,6 +9,7 @@ import {
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import L from "leaflet";
+import "./leafletConfig";
 
 // Fix marker icon
 import markerIcon from "leaflet/dist/images/marker-icon.png";
