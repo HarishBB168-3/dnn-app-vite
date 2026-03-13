@@ -44,6 +44,25 @@ const FilterSection = ({
         </label>
       </div>
 
+      <div className="form-check form-switch">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          id="excludeMassCases"
+          checked={filterOptions.excludeMassCases}
+          onChange={(e) =>
+            setFilterOptions((prev) => ({
+              ...prev,
+              excludeMassCases: e.target.checked,
+            }))
+          }
+        />
+        <label className="form-check-label" htmlFor="excludeMassCases">
+          Exclude mass cases
+        </label>
+      </div>
+
       {filterOptions.showExtraData && (
         <div className="d-flex">
           <ul className="list-group">

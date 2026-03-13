@@ -40,6 +40,16 @@ export function filterList(list, key, searchTerm) {
   });
 }
 
+export function excludeMass(list, key, searchTerm = "mass") {
+  return list.filter((item) => {
+    const value = item[key];
+    return (
+      value &&
+      !value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+}
+
 export function sortByDate(arr, key, order = "asc") {
   return arr.sort((a, b) => {
     // Parse dd-mm-yyyy into Date objects

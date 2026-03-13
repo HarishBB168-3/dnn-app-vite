@@ -1,6 +1,11 @@
 import { useCallback, useMemo, useState } from "react";
 import { getUniqueValuesNCountByKey } from "../../../components/services/utilsService";
-import { filterList, sortByDate, sortByPoleSuffix } from "../utils";
+import {
+  excludeMass,
+  filterList,
+  sortByDate,
+  sortByPoleSuffix,
+} from "../utils";
 import { fetchNNList } from "../services/nnListPageService";
 
 const useNNListData = ({ userId }) => {
@@ -10,6 +15,7 @@ const useNNListData = ({ userId }) => {
     filterType: "",
     showExtraData: false,
     sortByIssueDate: false,
+    excludeMassCases: false,
   });
   const [showAddressInAccrd, setShowAddressInAccrd] = useState(false);
 
@@ -28,6 +34,10 @@ const useNNListData = ({ userId }) => {
 
     if (filterOptions.sortByIssueDate) {
       result = sortByDate(result, "SERVICE_ORD_DATE", "desc");
+    }
+
+    if (filterOptions.excludeMassCases) {
+      result = excludeMass(result, "NOTIF_TYPE_DESC");
     }
 
     return result;
