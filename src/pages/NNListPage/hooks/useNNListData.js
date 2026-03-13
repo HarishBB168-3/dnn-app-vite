@@ -45,11 +45,11 @@ const useNNListData = ({ userId }) => {
 
   const clearData = () => {
     setNnList([]);
-    setFilterOptions({
+    setFilterOptions((prev) => ({
+      ...prev,
       filterType: "",
       showExtraData: false,
-      sortByIssueDate: false,
-    });
+    }));
   };
 
   const getNNList = useCallback(async () => {
