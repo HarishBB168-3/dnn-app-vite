@@ -5,7 +5,7 @@ const NNLIST_URL = "https://api.tatapower-ddl.com/mmg2/GetCustomerDetailsMMG";
 const payload = {
   userId: "",
   insertedon: 0,
-  APK_VERSION: "CMM_2.3.6",
+  APK_VERSION: "CMM_2.3.7",
 };
 
 export const fetchNNList = async (userId) => {
